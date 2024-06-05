@@ -7,7 +7,7 @@ public class PlanetShooter : MonoBehaviour
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
 
     // [SerializeField] Rigidbody2D planetRigidbody; 상단 콘솔 이런식으로도 사용가능함
-    public float forceMultiplier = 10f;   // 힘의 배수
+    public float forceMultiplier = 80f;   // 힘의 배수
 
     public GameObject planet;
     public GameObject landingSpot; // 착륙점에 꼭 할당하기 (태그)
@@ -70,27 +70,40 @@ public class PlanetShooter : MonoBehaviour
         float adjustedDistance = Mathf.Max(distance, 0.1f);                          // 최소 거리 값을 0.5로 설정하여 거리가 0.5보다 작아지지 않도록 함
         float gravityStrength = 10 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산
         //float gravityStrength = Mathf.Clamp(10 / distance, 0.1f, 10);              // 거리에 따른 중력 강도 조절, 최소값과 최대값 설정
-        
-        if (distance < 1f)  // 착륙점 (landingSpot)에 매우 가까워졌을때
+    
+      /*  if (distance < 1f)  // 착륙점 (landingSpot)에 매우 가까워졌을때
         {
-            planetRigidbody.velocity = Vector3.ClampMagnitude(planetRigidbody.velocity, 5f); // 속도를 최대 5로 제한
+            planetRigidbody.velocity = Vector3.ClampMagnitude(planetRigidbody.velocity, 50f); // 속도를 최대 #f로 제한
             gravityStrength = Mathf.Lerp(gravityStrength, 0, 1 - distance);
             planetRigidbody.velocity *= 0.01f; 
-        }
+        }*/
         planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
     }
     //public float maxSpeed = 100f;                                                    // 최대 속도 설정
     void FixedUpdate()
     {
-            planetRigidbody.drag = 1.3f; // 저항력 설정
+        planetRigidbody.drag = 1.5f;         // 저항력 설정  1.6f 황밸
     }
-/*    public float maxSpeed = 100f;                                                    // 최대 속도 설정
-    void FixedUpdate()
+
+    public float surfaceFriction = 0.01f;     // 표면 마찰력
+    public float spinFriction = 5f;        // 회전 마찰력
+
+    void OnCollisionEnter(Collision collision)
     {
-                                     if (planetRigidbody.velocity.magnitude > maxSpeed)
-                                     {
-                                     현재 속도 방향을 유지하면서 속도의 크기를 maxSpeed로 조정
-                                     planetRigidbody.velocity = planetRigidbody.velocity.normalized * maxSpeed;
-                                     }
-    }*/
+        if (collision.gameObject == landingSpot)
+        {
+            // 충돌 후 마찰력 적용
+            planetRigidbody.drag = surfaceFriction;
+            planetRigidbody.angularDrag = spinFriction;
+        }
+    }
+    /*    public float maxSpeed = 100f;                                                    // 최대 속도 설정
+        void FixedUpdate()
+        {
+                                         if (planetRigidbody.velocity.magnitude > maxSpeed)
+                                         {
+                                         현재 속도 방향을 유지하면서 속도의 크기를 maxSpeed로 조정
+                                         planetRigidbody.velocity = planetRigidbody.velocity.normalized * maxSpeed;
+                                         }
+        }*/
 }
