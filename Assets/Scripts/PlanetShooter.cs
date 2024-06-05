@@ -1,15 +1,17 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetShooter : MonoBehaviour
 {
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
+    // [SerializeField] Rigidbody2D planetRigidbody;
     public float forceMultiplier = 5f;   // 힘의 배수
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
     private bool isDragging = false;
+
     void Start()
     {
 
@@ -36,8 +38,9 @@ public class PlanetShooter : MonoBehaviour
             Vector2 direction = dragVector.normalized;  // 발사방향 계산
             float dragDistance = dragVector.magnitude;  // 드래그 거리 계산
 
-            planetRigidbody.AddForce(direction * dragDistance * forceMultiplier, ForceMode2D.Impulse); 
+            planetRigidbody.AddForce(direction * dragDistance * forceMultiplier, ForceMode2D.Impulse);
 
         }
     }
 }
+*/
