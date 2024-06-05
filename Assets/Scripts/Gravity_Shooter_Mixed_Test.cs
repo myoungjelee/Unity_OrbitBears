@@ -5,25 +5,22 @@ using UnityEngine;
 public class PlanetShooter : MonoBehaviour
 {
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
-   
+
     // [SerializeField] Rigidbody2D planetRigidbody; 상단 콘솔 이런식으로도 사용가능함
-    public float forceMultiplier = 2f;   // 힘의 배수
+    public float forceMultiplier = 10f;   // 힘의 배수
 
     public GameObject planet;
     public GameObject landingSpot; // 착륙점에 꼭 할당하기 (태그)
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
-    private bool isDragging = false;
+    private bool isDragging = false;   // 마우스 조작 코드
 
-    public Transform gravityCenter;
-
-    public float gravityStrength = 30f;
-    public float decelerationRate = 10f; // 속도 감소율 (0.95는 매 프레임마다 5%씩 속도를 줄임)
-    public float landingRadius = 1f;
 
     private bool isGravityActive = false; // 중력 활성화 여부
                                           // private bool isInFlight = false;  // 공이 날아가고 있는 상태인지 확인
+
+    private bool isLaunched = false; // 발사 상태 확인
     private bool hasLanded = false;   // 공이 착지했는지 확인
 
 
@@ -36,23 +33,14 @@ public class PlanetShooter : MonoBehaviour
     void Update()
     {
         // 마우스 클릭 할때
-        if (Input.GetMouseButtonDown(0))  
-                                        
+        if (Input.GetMouseButtonDown(0))
+
         {
             // 드래그 시작 위치 기록
             dragStartPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             isDragging = true;
         }
-        ///////////////////////////////////////
-        // 마우스 클릭 이벤트 처리
-        if (Input.GetMouseButtonDown(0) && isGravityActive && !hasLanded)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            Collider2D collider = Physics2D.OverlapPoint(mousePos);
-        }
-        ///////////////////////////////////////
-        if (Input.GetMouseButtonUp(0))          // 여기에 있으면 void Start()아래의 함수기 때문에 게임 시작시엔
+        if (Input.GetMouseButtonUp(0))          //여기에 있으면 void Start()아래의 함수기 때문에 게임 시작시엔
                                                 // 마우스를 누르지 않은 상태이므로 여기 if문이 바로 실행됨 상시로
                                                 // 사용할 커맨드 이기에 Update로 옮겼음
         {
@@ -66,117 +54,43 @@ public class PlanetShooter : MonoBehaviour
             planetRigidbody.AddForce(direction * dragDistance * forceMultiplier, ForceMode2D.Impulse);
 
             isGravityActive = true;
+            isLaunched = true;
         }
-
-
-
+        if (isLaunched)
+        {
+            AttracToLandingSpot();
+        }
     }
+    void AttracToLandingSpot()
+    {
+        Vector2 direction = landingSpot.transform.position - transform.position;     // 방향 계산
+        float distance = direction.magnitude;                                        // landingspot까지의 거리 계산
+        Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
+
+        float adjustedDistance = Mathf.Max(distance, 0.1f);                          // 최소 거리 값을 0.5로 설정하여 거리가 0.5보다 작아지지 않도록 함
+        float gravityStrength = 10 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산
+        //float gravityStrength = Mathf.Clamp(10 / distance, 0.1f, 10);              // 거리에 따른 중력 강도 조절, 최소값과 최대값 설정
+        
+        if (distance < 1f)  // 착륙점 (landingSpot)에 매우 가까워졌을때
+        {
+            planetRigidbody.velocity = Vector3.ClampMagnitude(planetRigidbody.velocity, 5f); // 속도를 최대 5로 제한
+            gravityStrength = Mathf.Lerp(gravityStrength, 0, 1 - distance);
+            planetRigidbody.velocity *= 0.01f; 
+        }
+        planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
+    }
+    //public float maxSpeed = 100f;                                                    // 최대 속도 설정
     void FixedUpdate()
     {
-        /*if (isGravityActive )   // 중력이 활성화 되었을때 하단 명령실행
-        {
-            // 중력점과 행성사이의 벡터값을 계산
-            Vector2 directionToCenter = (Vector2)gravityCenter.position - planetRigidbody.position;
-            float distanceToCenter = directionToCenter.magnitude;
-            // 중력 벡터값 계산
-            float gravityFroceMagnitude = gravityStrength / (distanceToCenter * distanceToCenter);
-            Vector2 gravityForce = directionToCenter.normalized * gravityFroceMagnitude;
-
-            // Calculate the gravity vector
-            //Vector2 gravityForce = directionToCenter.normalized * gravityForceMagnitude;
-
-            // Calculate the gravity force magnitude (using the inverse square law)
-            float gravityForceMagnitude = gravityStrength / (distanceToCenter * distanceToCenter);
-
-            
-
-            // Apply the gravity force to the ball
-            planetRigidbody.AddForce(gravityForce);
-
-            // 행성이 착륙지점 근처에 착지했는지 확인
-            if (distanceToCenter <= landingRadius)
-            {
-                // 행성이 중력지점에 착륙했을때 위치와 속도 0으로 설정
-                planetRigidbody.velocity = Vector2.zero;
-                planetRigidbody.angularVelocity = 0.0f;
-                planetRigidbody.position = gravityCenter.position;
-
-                isGravityActive = false; // 중력 비활성화
-                hasLanded = true;       
-            }
-        }*/
-        /* if (isGravityActive && !hasLanded)
-        {
-            Vector2 directionToCenter = (Vector2)gravityCenter.position - planetRigidbody.position;
-            float distanceToCenter = directionToCenter.magnitude;
-
-            if (distanceToCenter > landingRadius)
-             {
-                 // 일정한 크기의 중력 벡터를 계산합니다.
-                 Vector2 gravityForce = directionToCenter.normalized * gravityStrength;
-
-                 // 계산된 중력 벡터를 공에 적용합니다.
-                 planetRigidbody.AddForce(gravityForce);
-             }
-             else
-             {
-                 void OnCollisionEnter2D(Collision2D collision)
-                 {
-                     // 충돌한 오브젝트의 태그가 "LandingSpot"인지 확인합니다.
-                     if (collision.gameObject.CompareTag("LandingSpot"))
-                     {
-                         // 속도를 Vector2.zero로 설정하여 오브젝트의 속도를 0으로 만듭니다.
-                         planetRigidbody.velocity = Vector2.zero;
-                     }
-                 }
-             }
-        }
-        else if (isDecelerating)
-        {
-            // 속도를 점진적으로 줄임
-            planetRigidbody.velocity *= decelerationRate;
-
-            // 어느 정도 속도가 줄어들면 완전히 멈춤
-            if (planetRigidbody.velocity.magnitude < 0.1f)
-            {
-                planetRigidbody.velocity = Vector2.zero;
-                isDecelerating = false;
-            }
-        }*/
-        /*           if (isGravityActive)
-               {
-                   Vector2 directionToLandingSpot = (landingSpot.transform.position - transform.position).normalized;
-               float distance = Vector2.Distance(transform.position, landingSpot.transform.position);
-                   // 속도 점진적으로 감소
-                   planetRigidbody.velocity *= decelerationRate;
-                   print("a");
-               }*/
-        if (isGravityActive)
-        {
-            Vector2 directionToLandingSpot = (landingSpot.transform.position - transform.position).normalized;
-            float distance = Vector2.Distance(transform.position, landingSpot.transform.position);
-
-            // 거리에 반비례하는 중력을 적용
-            float gravityForce = gravityStrength / distance; // 거리가 줄어들수록 중력 감소
-            planetRigidbody.AddForce(directionToLandingSpot * gravityForce);
-
-            // 속도 감소 로직 추가
-            if (planetRigidbody.velocity.magnitude > 1f) // 속도가 너무 낮아지면 멈추도록 함
-            {
-                planetRigidbody.velocity *= decelerationRate;
-            }
-        }
+            planetRigidbody.drag = 1.3f; // 저항력 설정
     }
-
-/*    void OnCollisionEnter2D(Collision2D collision)
+/*    public float maxSpeed = 100f;                                                    // 최대 속도 설정
+    void FixedUpdate()
     {
-        if (collision.gameObject == landingSpot)
-        {
-            // LandingSpot에 닿으면 속도를 0으로 설정하고 달라붙음
-            planetRigidbody.velocity = Vector2.zero;
-            planetRigidbody.isKinematic = true;
-            transform.position = collision.contacts[0].point;
-            isGravityActive = false;
-        }
+                                     if (planetRigidbody.velocity.magnitude > maxSpeed)
+                                     {
+                                     현재 속도 방향을 유지하면서 속도의 크기를 maxSpeed로 조정
+                                     planetRigidbody.velocity = planetRigidbody.velocity.normalized * maxSpeed;
+                                     }
     }*/
 }

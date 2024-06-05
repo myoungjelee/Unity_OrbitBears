@@ -414,7 +414,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0, z: 0}
-  m_LocalScale: {x: 6.903989, y: 6.903989, z: 6.903989}
+  m_LocalScale: {x: 8.734927, y: 8.734927, z: 8.734927}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -498,7 +498,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0, z: 0}
-  m_LocalScale: {x: 7.0282483, y: 7.0282483, z: 7.0282483}
+  m_LocalScale: {x: 8.829588, y: 8.829588, z: 8.829588}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -514,8 +514,8 @@ GameObject:
   - component: {fileID: 1784419587}
   - component: {fileID: 1784419586}
   - component: {fileID: 1784419589}
-  - component: {fileID: 1784419591}
   - component: {fileID: 1784419592}
+  - component: {fileID: 1784419593}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -617,25 +617,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1784419591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784419584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52c71cc7a6336314590c96e539af84c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetRigidbody: {fileID: 1784419589}
-  forceMultiplier: 5
-  landingSpot: {fileID: 89631185}
-  gravityCenter: {fileID: 566570494}
-  gravityStrength: 10
-  decelerationRate: 1
-  landingRadius: 0.5
 --- !u!58 &1784419592
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -671,6 +652,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
+--- !u!114 &1784419593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784419584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f193695571d289a4eb7e241bd1618f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetRigidbody: {fileID: 1784419589}
+  forceMultiplier: 3
+  planet: {fileID: 1784419584}
+  landingSpot: {fileID: 89631185}
+  maxSpeed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
