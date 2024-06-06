@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using RankingSytem;
+using static RankingSytem.RankingSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     public GameObject quitPanel;      // 종료 안내 UI
-    public GameObject gameOverUI;
+    public GameObject gameOverUI;     // 게임오버 UI
+    public GameObject inputNameUI;    // 이름입력 UI
     public Image nextPlanetImage;
 
     public bool isGameOver { get; private set; }
@@ -79,8 +83,18 @@ public class GameManager : MonoBehaviour
         // 게임 일시중지
         Time.timeScale = 0f;
 
-        // 게임 오버 UI를 활성화
-        gameOverUI.SetActive(true);
+       
+
+        if(ScoreManager.instance.score > Get10thScore())
+        {
+            inputNameUI.SetActive(true);
+        }
+        else
+        {
+            // 게임 오버 UI를 활성화
+            gameOverUI.SetActive(true);
+        }
+
     }
 
     public void ResetGame()
@@ -100,6 +114,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         yield return new WaitForSeconds(3);
+
+        // GameOver();
     }
 
     // 랜덤 행성 선택
@@ -135,5 +151,20 @@ public class GameManager : MonoBehaviour
     public void ReloadPlanet()
     {
         UpdatePlanetData();
+    }
+
+    // 10등의 스코어 점수 가져오기
+    public int Get10thScore()
+    {
+        string jsonString = PlayerPrefs.GetString("highscoreTable");
+        if (!string.IsNullOrEmpty(jsonString))
+        {
+            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            if (highscores.highscoreEntries.Count > 0)
+            {
+                return highscores.highscoreEntries[highscores.highscoreEntries.Count - 1].score;
+            }
+        }
+        return 0; // 랭킹 테이블이 비어있는 경우 0 반환
     }
 }
