@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(instance );
         }
-        score = 0;
+        score = 666;
         UpdateScoreText();
     }
 

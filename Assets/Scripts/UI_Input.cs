@@ -15,7 +15,6 @@ public class UI_Input : MonoBehaviour
     private void Awake()
     {
         inputField = transform.Find("InputField (TMP)").GetComponent<TMP_InputField>();
-
     }
 
     public void OnClick_CheckButton()
