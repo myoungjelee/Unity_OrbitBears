@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1784934037521846728}
   m_Layer: 0
   m_Name: Planets
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,3 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb9a884c0a22274a855a6606b216e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 0
+  speed: 0
+  mergedPlanetPrefab: {fileID: 0}

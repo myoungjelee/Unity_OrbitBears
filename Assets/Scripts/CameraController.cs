@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static System.TimeZoneInfo;
 
@@ -7,59 +8,70 @@ public class CameraController : MonoBehaviour
 {
     private Camera mainCamera;
 
-    private float targetSize;
+    private float expendSize;
     private float originSize;
 
-    private bool isZoomOut = false; // 전환 중인지 여부를 나타내는 플래그
-    private float zoomingTime = 1.2f; // 전환 기간
-
-    private float zoomInTime = 0f; // 전환 시간을 계산하기 위한 타이머 변수
-    private float zoomuOutTime = 0f; // 전환 시간을 계산하기 위한 타이머 변수
+    private float zoomDurationTime = 1.2f; // 전환 시간
 
     private void Start()
     {
         mainCamera = Camera.main;
 
         originSize = mainCamera.orthographicSize;
-        targetSize = 12.0f;
+        expendSize = 12.0f;
 
-        //StartCoroutine(test());
+        StartCoroutine(test());
     }
 
-    //private void LateUpdate()
-    //{
-    //    if (isZoomOut)
-    //    {
-    //        // 전환 시간이 기간보다 작으면
-    //        if (currentTime < zoomTime)
-    //        {
-    //            // 전환 타이머를 증가시키고, 보간된 크기를 적용합니다.
-    //            currentTime += Time.deltaTime;
-    //            float t = Mathf.Clamp01(currentTime / zoomTime); // 0과 1 사이로 정규화
-    //            mainCamera.orthographicSize = Mathf.Lerp(originSize, targetSize, t);
-    //        }
-    //        else
-    //        {
-    //            // 전환 시간이 기간을 초과하면 전환 종료
-    //            isZoomOut = false;
-    //            currentTime += Time.deltaTime;
-    //            float t = Mathf.Clamp01(currentTime / zoomTime); // 0과 1 사이로 정규화
-    //            mainCamera.orthographicSize = Mathf.Lerp(targetSize, originSize, t);
-    //        }
-    //    }
-    //}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Planet")
+        {
+            // 카메라를 줌 아웃
+            CameraZoomOut();
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    //mainCamera.orthographicSize = Mathf.Lerp(originSize, targetSize, 0.5f);
-    //    isZoomOut = true;
-    //    currentTime = 0f;
-    //}
+            // 지정된 지속 시간 이후에 줌 인 메소드 호출
+            Invoke("CameraZoomIn", zoomDurationTime);
+        }
+    }
 
-    //IEnumerator test()
-    //{
-    //    yield return new WaitForSeconds(3);
+    IEnumerator test()
+    {
+        yield return new WaitForSeconds(zoomDurationTime);
 
-    //    isZoomOut = true;
-    //}
+        // 카메라를 줌 아웃
+        CameraZoomOut();
+
+        // 지정된 지속 시간 이후에 줌 인 메소드 호출
+        Invoke("CameraZoomIn", zoomDurationTime);
+    }
+
+    private void CameraZoomOut()
+    {
+        StartCoroutine(CameraControl(expendSize));
+    }
+
+    private void CameraZoomIn()
+    {
+        StartCoroutine(CameraControl(originSize));
+    }
+
+    // 카메라의 orthographic 크기를 부드럽게 변경하는 코루틴
+    IEnumerator CameraControl(float targetSize)
+    {
+        float currentTime = 0;   // 현재시간 초기화                     
+        float currentSize = mainCamera.orthographicSize;  // 현재 orthographicSize 저장
+
+        // 지정된 시간 동안 시작 크기와 목표 크기 사이를 보간
+        while (currentTime < zoomDurationTime)
+        {
+            mainCamera.orthographicSize = Mathf.Lerp(currentSize, targetSize, currentTime / zoomDurationTime);
+
+            // 경과 시간 증가
+            currentTime += Time.deltaTime;
+
+            // 다음 프레임까지 대기
+            yield return null;
+        }
+    }
 }

@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
     public bool isGameOver { get; private set; }
     private int maxPlanetID;          // 생성될 행성의 최대 범위
 
-    //private PlanetData currentPlanetData;
-    //private PlanetData nextPlanetData;
+    private PlanetData currentPlanetData;
+    private PlanetData nextPlanetData;
 
     private void Awake()
     {
@@ -102,36 +102,38 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
     }
 
-    //// 랜덤 행성 선택
-    //private PlanetData SelectRandomPlanet()
-    //{
-    //    int id = UnityEngine.Random.Range(0, maxPlanetID + 1);
+    // 랜덤 행성 선택
+    private PlanetData SelectRandomPlanet()
+    {
+        int id = UnityEngine.Random.Range(0, maxPlanetID + 1);
 
-    //    return PlanetManager.GetPlanetData(id);
-    //}
+        //return PlanetManager.GetPlanetData((uint)id);
 
-    //private void UpdatePlanetData()
-    //{
-    //    currentPlanetData = nextPlanetData;
-    //    nextPlanetData = SelectRandomPlanet();
+        return nextPlanetData;   // 지울예정
+    }
+
+    private void UpdatePlanetData()
+    {
+        currentPlanetData = nextPlanetData;
+        nextPlanetData = SelectRandomPlanet();
 
 
-    //    if (nextPlanetData.sprite != null)
-    //    {
-    //        nextPlanetImage.sprite = nextPlanetData.sprite;
-    //    }
-    //    else
-    //    {
-    //        nextPlanetImage.sprite = null;
-    //    }
+        if (nextPlanetData.sprite != null)
+        {
+            nextPlanetImage.sprite = nextPlanetData.sprite;
+        }
+        else
+        {
+            nextPlanetImage.sprite = null;
+        }
 
-    //    // nextPlanetImage 사이즈 설정
-    //    nextPlanetImage.rectTransform.sizeDelta = 50 * nextPlanetData.radius * Vector2.one;
-    //}
+        // nextPlanetImage 사이즈 설정
+        nextPlanetImage.rectTransform.sizeDelta = 50 * nextPlanetData.radius * Vector2.one;
+    }
 
-    //// 행성 리로드
-    //public void ReloadPlanet()
-    //{
-    //    UpdatePlanetData();
-    //}
+    // 행성 리로드
+    public void ReloadPlanet()
+    {
+        UpdatePlanetData();
+    }
 }
