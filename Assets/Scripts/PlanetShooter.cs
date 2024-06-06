@@ -1,59 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlanetShooter : MonoBehaviour
 {
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
-
     // [SerializeField] Rigidbody2D planetRigidbody; 상단 콘솔 이런식으로도 사용가능함
-    public float forceMultiplier = 200f;   // 힘의 배수
+
+    public float launchForce = 10f;   // 마우스로 발사하는 힘의 배수
 
     public GameObject planet;
-    public GameObject landingSpot; // 착륙점에 꼭 할당하기 (태그)
+    public GameObject landingSpot;         // 착륙점에 꼭 할당하기 (태그)
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
-    private bool isDragging = false;   // 마우스 조작 코드
+    private bool isDragging = false;       // 마우스 조작 코드
 
+    private bool isGravityActive = false;  // 중력 활성화 여부
 
-    private bool isGravityActive = false; // 중력 활성화 여부
-                                          // private bool isInFlight = false;  // 공이 날아가고 있는 상태인지 확인
+    private bool isLaunched = false;       // 발사 상태 확인
+    private bool hasLanded = false;        // 행성의 착지상태 확인
 
-    private bool isLaunched = false; // 발사 상태 확인
-    private bool hasLanded = false;   // 공이 착지했는지 확인
-
-
-    //private bool isDecelerating = false;
+    //////////////////////////인디케이터///////////////////////////
+   
+    private LineRenderer lineRenderer;
+    public int resolution = 30;             // 궤적의 해상도 (포인트 수)
 
     void Start()
     {
         planetRigidbody = GetComponent<Rigidbody2D>();
-    }
-    void Update()
-    {
-        // 마우스 클릭 할때
-        if (Input.GetMouseButtonDown(0))
 
+        if (lineRenderer == null )
+        {
+            lineRenderer = GetComponent<LineRenderer>();   // LineRenderer를 가져오는 구문
+        }
+    }
+
+    void Update()
+    {     
+        if (Input.GetMouseButtonDown(0)) // 마우스 버튼 눌렀을때
         {
             // 드래그 시작 위치 기록
-            dragStartPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            dragStartPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             isDragging = true;
+            /////인디케이터 명령어/////
+            dragStartPosition = planetRigidbody.position;
+            ///////////////////////////
         }
-        if (Input.GetMouseButtonUp(0))          //여기에 있으면 void Start()아래의 함수기 때문에 게임 시작시엔
-                                                // 마우스를 누르지 않은 상태이므로 여기 if문이 바로 실행됨 상시로
-                                                // 사용할 커맨드 이기에 Update로 옮겼음
+        if (Input.GetMouseButtonUp(0))   // 마우스 버튼 땠을때
         {
             dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             isDragging = false;
-
+            //////인디케이터 명령어/////
+            ClearTrajectory();  // 궤적 지우기
+            ////////////////////////////
             Vector2 dragVector = (dragStartPosition - dragEndPosition); // 마우스 클릭ON 좌표 - 클릭OFF 좌표 를 해서 힘계산
-            Vector2 direction = dragVector.normalized;  // 발사방향 계산
-            float dragDistance = dragVector.magnitude;  // 드래그 거리 계산
+            Vector2 direction = dragVector.normalized;                  // 발사방향 계산
+            float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
+           
+            planetRigidbody.AddForce(direction * dragDistance * launchForce, ForceMode2D.Impulse);
 
-            planetRigidbody.AddForce(direction * dragDistance * forceMultiplier, ForceMode2D.Impulse);
-
-            isGravityActive = true;
+            isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
             isLaunched = true;
         }
         if (isLaunched)
@@ -67,10 +76,8 @@ public class PlanetShooter : MonoBehaviour
         float distance = direction.magnitude;                                        // landingspot까지의 거리 계산
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 
-        float adjustedDistance = Mathf.Max(distance, 0.1f);                          // 최소 거리 값을 0.5로 설정하여 거리가 0.5보다 작아지지 않도록 함
-        float gravityStrength = 10 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산
-        //float gravityStrength = Mathf.Clamp(10 / distance, 0.1f, 10);              // 거리에 따른 중력 강도 조절, 최소값과 최대값 설정
-    
+        float adjustedDistance = Mathf.Max(distance, 0.001f);                        // 최소 거리 값을 #로 설정하여 거리가 #보다 작아지지 않도록 함
+        float gravityStrength = 10 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
       /*  if (distance < 1f)  // 착륙점 (landingSpot)에 매우 가까워졌을때
         {
             planetRigidbody.velocity = Vector3.ClampMagnitude(planetRigidbody.velocity, 50f); // 속도를 최대 #f로 제한
@@ -79,25 +86,45 @@ public class PlanetShooter : MonoBehaviour
         }*/
         planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
     }
-    //public float maxSpeed = 100f;                                                    // 최대 속도 설정
+    //public float maxSpeed = 100f;                                                  // 최대 속도 설정
     void FixedUpdate()
     {
-        planetRigidbody.drag = 1.5f;         // 저항력 설정  1.6f 황밸
+        planetRigidbody.drag = 1.5f;           // 발사된 행성의 속도 저항력 설정
     }
 
-    public float surfaceFriction = 0.01f;     // 표면 마찰력
-    public float spinFriction = 5f;        // 회전 마찰력
-
-    void OnCollisionEnter(Collision collision)
+    void ShowTrajectory(Vector2 startPosition, Vector2 startVelocity)
     {
-        if (collision.gameObject == landingSpot)
+        Vector3[] points = new Vector3[resolution];
+        float timeStep = 0.1f;   // 시간 간격
+
+        for (int i = 0; i < resolution; i++)
         {
-            // 충돌 후 마찰력 적용
-            planetRigidbody.drag = surfaceFriction;
-            planetRigidbody.angularDrag = spinFriction;
+            float time = i * timeStep;
+            Vector2 point = startPosition + startVelocity * time * 0.5f * Physics2D.gravity * time * time; // 포인트 계산
+            points[i] = new Vector3(point.x, point.y, 0); // 2D 포인트를 3D로 변환
         }
+
+        lineRenderer.positionCount = resolution;
+        lineRenderer.SetPositions(points); // LineRenderer에 포인트 설정
     }
-    /*    public float maxSpeed = 100f;                                                    // 최대 속도 설정
+    
+    void ClearTrajectory()
+    {
+        lineRenderer.positionCount = 0; // 궤적 지우기
+    }
+    /*    public float surfaceFriction = 0.01f;    // (달라 붙은 후) 표면 마찰력
+        public float spinFriction = 5f;            // (달라 붙은 후) 회전 마찰력
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject == landingSpot)
+            {
+                // landingSpot 충돌 후 마찰력 적용
+                planetRigidbody.drag = surfaceFriction;
+                planetRigidbody.angularDrag = spinFriction;
+            }
+        }*/
+    /*    public float maxSpeed = 100f;                                                // 최대 속도 설정
         void FixedUpdate()
         {
                                          if (planetRigidbody.velocity.magnitude > maxSpeed)
