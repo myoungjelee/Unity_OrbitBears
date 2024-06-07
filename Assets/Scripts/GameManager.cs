@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-         GameOver();
+         gameOverUI.SetActive(true);
     }
 
     // 랜덤 행성 선택
