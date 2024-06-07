@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private PlanetData currentPlanetData;
     private PlanetData nextPlanetData;
 
+    public event System.Action<PlanetData> OnReload;
     private void Awake()
     {
         if (instance == null)
@@ -151,6 +152,7 @@ public class GameManager : MonoBehaviour
     public void ReloadPlanet()
     {
         UpdatePlanetData();
+        OnReload?.Invoke(currentPlanetData);
     }
 
     // 10등의 스코어 점수 가져오기

@@ -20,13 +20,13 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(instance );
         }
-        score = 666;
+        score = 0;
         UpdateScoreText();
     }
 
     public void AddScore(int addScore)
     {
-        this.score += score;
+        this.score += addScore;
         UpdateScoreText();
     }
 
