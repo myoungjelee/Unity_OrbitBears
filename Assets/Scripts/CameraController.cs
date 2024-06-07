@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
         originSize = mainCamera.orthographicSize;
         expendSize = 12.0f;
 
-        StartCoroutine(test());
+        // StartCoroutine(test());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
