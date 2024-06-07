@@ -9,7 +9,19 @@ using static RankingSytem.RankingSystem;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    private static GameManager instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+            }
+            return instance;
+        }
+    }
 
     public GameObject quitPanel;      // 종료 안내 UI
     public GameObject gameOverUI;     // 게임오버 UI
@@ -25,21 +37,7 @@ public class GameManager : MonoBehaviour
     public event System.Action<PlanetData> OnReload;
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         ResetGame();
-    }
-
-    private void Start()
-    {
-        maxPlanetID = 4;
     }
 
     public void OnClick_RetryButton()
@@ -86,7 +84,7 @@ public class GameManager : MonoBehaviour
 
        
 
-        if(ScoreManager.instance.score > Get10thScore())
+        if(ScoreManager.Instance.score > Get10thScore())
         {
             inputNameUI.SetActive(true);
         }
@@ -114,9 +112,12 @@ public class GameManager : MonoBehaviour
         // 게임 재개
         Time.timeScale = 1f;
 
+        maxPlanetID = 4;
+
         yield return new WaitForSeconds(3);
 
          gameOverUI.SetActive(true);
+        //GameOver();
     }
 
     // 랜덤 행성 선택

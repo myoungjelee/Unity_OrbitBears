@@ -7,23 +7,36 @@ using UnityEngine.SceneManagement;
 
 public class GameOverUI : MonoBehaviour
 {
-    public ScoreManager scoreManager;
-    public TextMeshPro scoreText;
+    //public ScoreManager scoreManager;
+    private TextMeshProUGUI scoreText;
     public TextMeshPro BestText;
     public bool isGameOver = false;
     public GameObject gameOver;
     public GameObject rankingUI;
 
+    private void OnEnable()
+    {
+        // "Score Text (TMP)" 이름을 가진 게임 오브젝트를 찾아 TextMeshProUGUI 컴포넌트를 할당
+        scoreText = GameObject.Find("Score Text (TMP)").GetComponent<TextMeshProUGUI>();
+        UpdateScoreText();
+    }
 
-    // Update is called once per frame
+
     public void UpdateScoreText()
     {
-        scoreText.text = $"SCORE : {scoreManager.score}";
+        if( scoreText != null)
+        {
+            scoreText.text = $"SCORE  :  {ScoreManager.Instance.score}";
+        }
+        else
+        {
+            Debug.Log("스코어텍스트가 없습니다.");
+        }
     }
 
     public void UpdateBestText()
     {
-        BestText.text = $"BEST : {scoreManager.score}";
+        BestText.text = $"BEST : {ScoreManager.Instance.score}";
 
     }
 
