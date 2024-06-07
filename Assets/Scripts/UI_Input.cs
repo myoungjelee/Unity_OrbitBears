@@ -19,7 +19,7 @@ public class UI_Input : MonoBehaviour
 
     public void OnClick_CheckButton()
     {
-        rankingSystem.AddHighscoreEntry(ScoreManager.instance.score, inputField.text);
+        rankingSystem.AddHighscoreEntry(ScoreManager.Instance.score, inputField.text);
         rankingUI.SetActive(true);
         gameObject.SetActive(false);
     }

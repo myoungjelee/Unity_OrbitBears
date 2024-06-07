@@ -6,21 +6,25 @@ public class ScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
 
-    public static ScoreManager instance;
+    private static ScoreManager instance;
+
+    public static ScoreManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<ScoreManager>();
+            }
+            return instance;
+        }
+    }
 
     public int score;
 
     private void Awake()
     {
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(instance );
-        }
-        score = 0;
+        score = 6666;
         UpdateScoreText();
     }
 
