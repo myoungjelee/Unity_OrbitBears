@@ -52,12 +52,21 @@ public class PlanetShooter : MonoBehaviour
                 dragStartPosition = planetRigidbody.position;
                 ///////////////////////////
             }
+            if (Input.GetMouseButton(0) && isDragging) // 마우스로 클릭 + 드래그를 하는동안 ~
+            {
+                dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 클릭&드래그 하는동안의 힘을 계산
+                Vector2 direction = dragVector.normalized;                  // 발사방향 계산
+                float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산 (드래그 정도)
+
+                ShowTrajectory(dragStartPosition, direction * dragDistance * launchForce);
+            }
             if (Input.GetMouseButtonUp(0))   // 마우스 버튼 뗐을 때
             {
                 dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 isDragging = false;
                 //////인디케이터 명령어/////
-                ClearTrajectory();  // 궤적 지우기
+                ClearTrajectory();  // 궤적(표시기) 지우기
                 ////////////////////////////
                 Vector2 dragVector = (dragStartPosition - dragEndPosition); // 마우스 클릭ON 좌표 - 클릭OFF 좌표 를 해서 힘계산
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
@@ -74,6 +83,7 @@ public class PlanetShooter : MonoBehaviour
             AttracToLandingSpot();
         }
     }
+
     void AttracToLandingSpot()
     {
         Vector2 direction = landingSpot.transform.position - transform.position;     // 방향 계산
@@ -98,20 +108,27 @@ public class PlanetShooter : MonoBehaviour
 
     void ShowTrajectory(Vector2 startPosition, Vector2 startVelocity)
     {
+        resolution = 3; // 궤적의 해상도를 낮춰서 궤적의 길이를 줄임
+
         Vector3[] points = new Vector3[resolution];
         float timeStep = 0.1f;   // 시간 간격
+
+        // 드래그 방향에 따른 궤적 위치 조정
+        float trajectoryOffset = startVelocity.y > 0 ? -2f : 2f; // 위로 드래그하면 궤적을 아래로, 아래로 드래그하면 궤적을 위로 조정
 
         for (int i = 0; i < resolution; i++)
         {
             float time = i * timeStep;
-            Vector2 point = startPosition + startVelocity * time * 0.5f * Physics2D.gravity * time * time; // 포인트 계산
-            points[i] = new Vector3(point.x, point.y, 0); // 2D 포인트를 3D로 변환
+            Vector2 point = startPosition + startVelocity * time + 0.5f * Physics2D.gravity * time * time; // 점 계산
+
+            points[i] = new Vector3(point.x, point.y, 0); // 2D 점을 3D로 변환
+       
         }
 
         lineRenderer.positionCount = resolution;
-        lineRenderer.SetPositions(points); // LineRenderer에 포인트 설정
-    }
+        lineRenderer.SetPositions(points); // LineRenderer에 점 설정
 
+    }
     void ClearTrajectory()
     {
         lineRenderer.positionCount = 0; // 궤적 지우기
