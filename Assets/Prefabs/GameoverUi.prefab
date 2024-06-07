@@ -257,6 +257,7 @@ MonoBehaviour:
   BestText: {fileID: 0}
   isGameOver: 0
   gameOver: {fileID: 0}
+  rankingUI: {fileID: 0}
 --- !u!1 &3671819343634655215
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,13 +588,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 1d8f50fbbe223d544978a3d342ab7568, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2352781750705941431}
+        m_TargetAssemblyTypeName: GameOverUI, Assembly-CSharp
+        m_MethodName: Ranking
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
