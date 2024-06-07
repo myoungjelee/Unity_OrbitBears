@@ -332,6 +332,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261366990}
   m_CullTransparentMesh: 1
+--- !u!1 &429132397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8229153127124379373, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
+  m_PrefabInstance: {fileID: 938892773532975991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &594561605
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,18 +564,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829542392}
   m_CullTransparentMesh: 1
---- !u!1 &880824002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8758335780645411290, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
+--- !u!114 &880824004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 646326619391962217, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
   m_PrefabInstance: {fileID: 8982289902604545529}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &880824004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880824002}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16e06997098ff57459a9ae332bf9b38c, type: 3}
@@ -941,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fadbb05daeebc344ebfbfbfb284e2602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quitPanel: {fileID: 1614328867}
+  quitPanel: {fileID: 429132397}
   gameOverUI: {fileID: 1953680763}
   inputNameUI: {fileID: 2048609759}
   nextPlanetImage: {fileID: 938892773532975992}
@@ -1232,11 +1231,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596494831}
   m_CullTransparentMesh: 1
---- !u!1 &1614328867 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3095536107700215858, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
-  m_PrefabInstance: {fileID: 938892773532975991}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1687704872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1983,10 +1977,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraController
       objectReference: {fileID: 0}
-    - target: {fileID: 3090124797821023501, guid: 784305d317e00d24bb6d57de393c4599, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4570197523513871519, guid: 784305d317e00d24bb6d57de393c4599, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.091492
@@ -2048,10 +2038,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2072510399}
-    - target: {fileID: 3095536107700215858, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3389223336361529613, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
       propertyPath: m_Name
       value: MainUI
@@ -2148,10 +2134,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1359839359}
-    - target: {fileID: 8200391968527148481, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2183,10 +2165,6 @@ PrefabInstance:
     - target: {fileID: 1394609405863415020, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
       propertyPath: m_Name
       value: RankingUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 1394609405863415020, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6631525694258768551, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
       propertyPath: m_Pivot.x
@@ -2271,10 +2249,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8758335780645411290, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 880824004}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c1b4a92ea585c94088e75972b412e5b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
