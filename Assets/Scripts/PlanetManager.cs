@@ -5,23 +5,49 @@ using UnityEditor;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
-public class PlanetManager : MonoBehaviour
+[CreateAssetMenu(fileName = "PlanetsData", menuName = "ScriptableObjects/PlanetsData", order = 1)]
+
+
+public class PlanetManager : ScriptableObject
 {
-    public GameObject shooter;
-    public GameObject[] planetPrefabs;
+    //    public GameObject shooter;
+    //    public GameObject[] planetPrefabs;
 
-    public PlanetManager planetManager;
+    //    public PlanetManager planetManager;
 
-    private void Start()
+    //    private void Start()
+    //{
+    //        Spawn();
+    //    }
+
+    //    public void Spawn()
+    //    {
+    //        Instantiate(planetPrefabs[Random.RandomRange(0,3)], shooter.transform);
+    //    }
+
+    public PlanetData[] planets;
+
+    public void SpawnPlanet(Transform spawnPoint, float launchForce)
     {
-        Spawn();
+        int index = Random.Range(0, planets.Length);
+        PlanetData planetData = planets[index];
+
+        GameObject planet = new GameObject(planetData.name);
+        planet.transform.position = spawnPoint.position;
+        planet.transform.localScale = Vector3.one * planetData.radius;
+
+        SpriteRenderer spriteRenderer = planet.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = planetData.sprite;
+        spriteRenderer.color = planetData.color;
+
+        Rigidbody2D rb = planet.AddComponent<Rigidbody2D>();
+        rb.AddForce(spawnPoint.up * launchForce, ForceMode2D.Impulse);
+
+        Planet planetComponent = planet.AddComponent<Planet>();
+        planetComponent.radius = planetData.radius;
+        planetComponent.nextSizeSprite = planetData.nextSizeSprite;
     }
 
-    public void Spawn()
-    {
-        Instantiate(planetPrefabs[Random.RandomRange(0,3)], shooter.transform);
-    }
 
-   
-  
+
 }

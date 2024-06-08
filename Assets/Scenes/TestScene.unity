@@ -259,9 +259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975ed7a58789071448196f52b9de2ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 1449523203}
+  shooter: {fileID: 0}
   planetPrefab: {fileID: 35543083787614614, guid: d2f29c6a9f8474a459a1fa9b5d0d1354, type: 3}
---- !u!1 &1449523203
+--- !u!1 &939471749
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,39 +269,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1449523205}
-  - component: {fileID: 1449523204}
+  - component: {fileID: 939471750}
   m_Layer: 0
-  m_Name: PlanetShooter
+  m_Name: planetPrefabs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1449523204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449523203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52c71cc7a6336314590c96e539af84c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetRigidbody: {fileID: 0}
-  forceMultiplier: 5
---- !u!4 &1449523205
+--- !u!4 &939471750
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449523203}
+  m_GameObject: {fileID: 939471749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.1, y: -0.44389808, z: 0}
+  m_LocalPosition: {x: 2.8305902, y: -0.088434815, z: -0.002023803}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1074545351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074545352}
+  m_Layer: 0
+  m_Name: PlanetSetting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1074545352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074545351}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.8305902, y: -0.088434815, z: -0.002023803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -321,7 +337,7 @@ GameObject:
   - component: {fileID: 1930841133}
   m_Layer: 0
   m_Name: Planet
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,25 +448,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb9a884c0a22274a855a6606b216e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newData:
-    name: 
-    id: 0
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    radius: 0
-    mass: 0
-    mergeScore: 0
-    radiusData: 0
-  planetColor: {r: 1, g: 1, b: 1, a: 1}
-  planetRadius: 0
-  planetMass: 0
-  planetMergeScore: 0
-  planetRadiusData: 0
+  radius: 0
+  nextSizeSprite: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 127111336}
   - {fileID: 1930841132}
-  - {fileID: 1449523205}
   - {fileID: 440618856}
+  - {fileID: 939471750}
+  - {fileID: 1074545352}

@@ -2,50 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlanetManager", menuName = "ScriptableObjects/PlanetManager")]
-
-public class PlanetSetting : ScriptableObject
+public class PlanetSetting : MonoBehaviour
 {
+    public PlanetManager planetManager;
 
-    [SerializeField] private float massCalculate = 1f;
-    [SerializeField] private PlanetData[] planetData;
+    public Transform spawnPoint;
+    public float launchForce = 10f;
 
-
-    public void MassCalulateArray(PlanetData[] planetData)
+    private void Start()
     {
-        for(int i = 0; i < planetData.Length; i++)
-        {
-            planetData[i].radius = planetData[i].radius * planetData[i].radius * Mathf.PI;
-        }
-    }
-    
-    public void SetPlanetId()
-    {
-        for(int i = 0; i < planetData.Length; i++)
-        {
-            planetData[i].id = i;
-        }
+        SpawnPlanet();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void SpawnPlanet()
     {
-        SetPlanetId();
+        planetManager.SpawnPlanet(spawnPoint, launchForce);
     }
 
-    //private void OnEnable()
+
+    //[SerializeField] private float massCalculate = 1f;
+    //[SerializeField] private PlanetData[] planetData;
+
+
+    //public void MassCalulateArray(PlanetData[] planetData)
+    //{
+    //    for(int i = 0; i < planetData.Length; i++)
+    //    {
+    //        planetData[i].radius = planetData[i].radius * planetData[i].radius * Mathf.PI;
+    //    }
+    //}
+
+    //public void SetPlanetId()
+    //{
+    //    for(int i = 0; i < planetData.Length; i++)
+    //    {
+    //        planetData[i].id = i;
+    //    }
+    //}
+
+    //// Start is called before the first frame update
+    //void Start()
     //{
     //    SetPlanetId();
     //}
 
-    public PlanetData GetPlanetData(int id)
-    {
-        id %= planetData.Length;
-        return planetData[id];
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    ////private void OnEnable()
+    ////{
+    ////    SetPlanetId();
+    ////}
+
+    //public PlanetData GetPlanetData(int id)
+    //{
+    //    id %= planetData.Length;
+    //    return planetData[id];
+    //}
+    //// Update is called once per frame
+    //void Update()
+    //{
+
+    //}
 }
