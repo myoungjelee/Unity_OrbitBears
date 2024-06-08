@@ -5,26 +5,11 @@ using UnityEditor;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlanetsData", menuName = "ScriptableObjects/PlanetsData", order = 1)]
 
+[CreateAssetMenu(fileName = "PlanetsData", menuName = "ScriptableObjects/PlanetsData", order = 1)]
 
 public class PlanetManager : ScriptableObject
 {
-    //    public GameObject shooter;
-    //    public GameObject[] planetPrefabs;
-
-    //    public PlanetManager planetManager;
-
-    //    private void Start()
-    //{
-    //        Spawn();
-    //    }
-
-    //    public void Spawn()
-    //    {
-    //        Instantiate(planetPrefabs[Random.RandomRange(0,3)], shooter.transform);
-    //    }
-
     public PlanetData[] planets;
 
     public void SpawnPlanet(Transform spawnPoint, float launchForce)
@@ -46,8 +31,5 @@ public class PlanetManager : ScriptableObject
         Planet planetComponent = planet.AddComponent<Planet>();
         planetComponent.radius = planetData.radius;
         planetComponent.nextSizeSprite = planetData.nextSizeSprite;
-    }
-
-
-
+    }   
 }
