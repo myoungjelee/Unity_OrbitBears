@@ -2,42 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
->>>>>>> parent of 78f00ea (Revert "데이터 생성 완료, 충돌 시 처리 구현")
-[System.Serializable]
-public class PlanetData 
-{
-    public string name;
-    public int id;
-=======
 [System.Serializable]
 public class PlanetData
 {
     public string name;
-    [HideInInspector] public uint id;
->>>>>>> dev
+    public int id;
     public Sprite sprite;
     public Color color = Color.white;
     public float radius;
     public float mass;
     public int mergeScore;
-<<<<<<< HEAD
     public Sprite nextSizeSprite;
-=======
-    public float radiusData;
->>>>>>> dev
 }
 
 public class Planet : MonoBehaviour
 {
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
->>>>>>> parent of 78f00ea (Revert "데이터 생성 완료, 충돌 시 처리 구현")
     public float radius;
     public Sprite nextSizeSprite;
 
@@ -70,17 +50,3 @@ public class Planet : MonoBehaviour
         }
     }
 }
-<<<<<<< HEAD
-
-=======
-=======
-    public PlanetData newData;
-
-    public void SetData(PlanetData data)
-    {
-        newData = data;
-    }
-    
-}
->>>>>>> dev
->>>>>>> parent of 78f00ea (Revert "데이터 생성 완료, 충돌 시 처리 구현")

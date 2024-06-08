@@ -16,11 +16,7 @@ public class PlanetShooter : MonoBehaviour
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
-<<<<<<< HEAD
-    private bool isDragging = false;
-
-=======
-    private bool isDragging = false;       // 마우스 조작 코드
+    private bool isDragging = false;     // 마우스 조작 코드
 
     private bool isGravityActive = false;  // 중력 활성화 여부
 
@@ -32,8 +28,6 @@ public class PlanetShooter : MonoBehaviour
     public int resolution = 30;             // 궤적의 해상도 (포인트 수)
 
     //////////////////////////인디케이터///////////////////////////
->>>>>>> dev
-
     void Start()
     {
         planetRigidbody = GetComponent<Rigidbody2D>();
