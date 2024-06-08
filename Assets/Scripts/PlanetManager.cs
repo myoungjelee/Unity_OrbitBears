@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Networking.PlayerConnection;
@@ -32,4 +33,21 @@ public class PlanetManager : ScriptableObject
         planetComponent.radius = planetData.radius;
         planetComponent.nextSizeSprite = planetData.nextSizeSprite;
     }   
+=======
+using UnityEngine;
+
+public class PlanetManager : MonoBehaviour
+{   
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+>>>>>>> dev
 }

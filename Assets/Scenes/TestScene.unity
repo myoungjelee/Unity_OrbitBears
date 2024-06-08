@@ -215,6 +215,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1 &939471749
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +325,8 @@ MonoBehaviour:
   planetManager: {fileID: 11400000, guid: d8064c17bc5b218459dfe0e4d329d424, type: 2}
   spawnPoint: {fileID: 0}
   launchForce: 10
+=======
+>>>>>>> dev
 --- !u!1 &1930841129
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,10 +338,16 @@ GameObject:
   - component: {fileID: 1930841132}
   - component: {fileID: 1930841131}
   - component: {fileID: 1930841130}
+<<<<<<< HEAD
   - component: {fileID: 1930841133}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Planet
+=======
+  m_Layer: 0
+  m_Name: Planet
+  m_TagString: Untagged
+>>>>>>> dev
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -437,6 +446,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!114 &1930841133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,12 +461,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0
   nextSizeSprite: {fileID: 0}
+=======
+>>>>>>> dev
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 127111336}
   - {fileID: 1930841132}
+<<<<<<< HEAD
   - {fileID: 939471750}
   - {fileID: 1074545352}
   - {fileID: 975646108}
+=======
+>>>>>>> dev
