@@ -11,12 +11,6 @@ public class PlanetSetting : MonoBehaviour
 
     private void Start()
     {
-
-        if (planetManager == null)
-        {
-            // Resources 폴더에서 PlanetManager ScriptableObject를 로드
-            planetManager = Resources.Load<PlanetManager>("PlanetManager");
-        }
         SpawnPlanet();
     }
 

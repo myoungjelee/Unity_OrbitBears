@@ -46,6 +46,7 @@ public class Planet : MonoBehaviour
                 Planet planetComponent = newPlanet.AddComponent<Planet>();
                 planetComponent.radius = this.radius * 2; // 다음 크기로 증가
                 planetComponent.nextSizeSprite = this.nextSizeSprite; // 다음 크기의 스프라이트 설정
+
             }
         }
     }
