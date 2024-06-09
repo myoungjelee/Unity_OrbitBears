@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 
 public class PlanetManager : MonoBehaviour
@@ -11,6 +13,11 @@ public class PlanetManager : MonoBehaviour
     private static PlanetManager instance;
     public GameObject planetPrefab;
     public PlanetSetting planetSetting;
+    public Image nextPlanetImage;
+    public Transform planetSpawnPoint;
+
+    private PlanetData currentPlanetData;
+    private PlanetData nextPlanetData;
 
     public static PlanetManager Instance
     {
@@ -30,20 +37,14 @@ public class PlanetManager : MonoBehaviour
     {
         spawnPosition = new Vector3(-8, 0, 0);
 
-        SpawnPlanet(RandomData(), spawnPosition);
-    }
-    
-
-
-    public PlanetData GetPlanetData(int id)
-    {
-        id = Random.Range(0, 4);
-        return planetSetting.planetDatas[id];
-    }
+        currentPlanetData = GetRandomPlanetData();
+        nextPlanetData = GetRandomPlanetData();
+        ReloadingPlanet();
+    }  
 
     public PlanetData RandomData()
     {
-        return GetPlanetData(Random.Range(0, 4));
+        return GetRandomPlanetData();
     }
 
     public Planet SpawnPlanet(PlanetData data, Vector2 spawnPos)
@@ -54,13 +55,36 @@ public class PlanetManager : MonoBehaviour
         return planet;
     }
 
+    public PlanetData GetRandomPlanetData()
+    {
+        int id = Random.Range(0, 4);
+        return planetSetting.planetDatas[id];
+    }
+
+    public void ReloadingPlanet()
+    {
+        currentPlanetData = nextPlanetData;
+        nextPlanetData = GetRandomPlanetData();
+
+        if(nextPlanetData.sprite != null)
+        {
+            nextPlanetImage.sprite = nextPlanetData.sprite;
+            nextPlanetImage.rectTransform.sizeDelta = 75 * nextPlanetData.radius * Vector2.one;
+        }
+
+        SpawnPlanet(currentPlanetData, planetSpawnPoint.position);
+    }
+
+    public PlanetData NextPlanetData(int id)
+    {
+        return planetSetting.planetDatas[id];
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnPlanet(RandomData(), spawnPosition);
+            ReloadingPlanet();
         }
-    }
-    
-
+    }  
 }
