@@ -6,6 +6,8 @@ TagManager:
   tags:
   - QuitPanel
   - Planet
+  - LandingSpot
+  - GravityField
   layers:
   - Default
   - TransparentFX

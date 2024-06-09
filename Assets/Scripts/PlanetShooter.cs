@@ -138,4 +138,5 @@ public class PlanetShooter : MonoBehaviour
     {
         lineRenderer.positionCount = 0; // 궤적 지우기
     }
+
 }
