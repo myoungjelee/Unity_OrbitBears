@@ -24,7 +24,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        score = 6666;
+        score = 0;
         UpdateScoreText();
     }
 

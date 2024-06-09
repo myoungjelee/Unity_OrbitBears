@@ -15,7 +15,7 @@ MonoBehaviour:
   planetDatas:
   - name: Sputnik
     id: 0
-    sprite: {fileID: 21300000, guid: a27406c97e517164cbd7003354e6739c, type: 3}
+    sprite: {fileID: 21300000, guid: 08c9e74b455547c4b9d79f81fcbb8651, type: 3}
     color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
     radius: 0.25
     mass: 0.9817477
@@ -23,7 +23,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Mercury
     id: 1
-    sprite: {fileID: 21300000, guid: ef1bf2ecc16140f4195ed991ac4136c1, type: 3}
+    sprite: {fileID: 21300000, guid: 024adde8616984d41bd5389fc81c2046, type: 3}
     color: {r: 0.6313726, g: 0.4156863, b: 1, a: 1}
     radius: 0.35
     mass: 1.924225
@@ -31,7 +31,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Venus
     id: 2
-    sprite: {fileID: 21300000, guid: c37b6465dcc722340a3a437ce8dbbe96, type: 3}
+    sprite: {fileID: 21300000, guid: 765aab9d7d5f75f478521312f0b8a3dd, type: 3}
     color: {r: 0.9921569, g: 0.52156866, b: 0.08627451, a: 1}
     radius: 0.475
     mass: 3.544109
@@ -39,7 +39,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Earth
     id: 3
-    sprite: {fileID: 21300000, guid: 0aab17f474ae0434eb7aff4a29cc0123, type: 3}
+    sprite: {fileID: 21300000, guid: 28e9e4d4c4e28fb43ad4079040df231d, type: 3}
     color: {r: 0.13466519, g: 0.6132076, b: 0, a: 1}
     radius: 0.625
     mass: 6.1359234
@@ -47,7 +47,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Mars
     id: 4
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: de9bd78144a44764f99b085846a2e03a, type: 3}
     color: {r: 0.8018868, g: 0.11773949, b: 0, a: 1}
     radius: 0.8
     mass: 10.053097
@@ -55,7 +55,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Uranus
     id: 5
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 1eebe61fa30929248bdcda4d7c3c51ec, type: 3}
     color: {r: 0, g: 0.49443495, b: 0.8113208, a: 1}
     radius: 1
     mass: 15.707964
@@ -63,7 +63,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Neptune
     id: 6
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: c135213a5c54f2f4984eaa105cc33b20, type: 3}
     color: {r: 0.16862746, g: 0.16862746, b: 0.36078432, a: 1}
     radius: 1.225
     mass: 23.571764
@@ -71,7 +71,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Saturn
     id: 7
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 0de84308c2a0e424d9be75e05a2d97ac, type: 3}
     color: {r: 0.7830189, g: 0.580238, b: 0.411208, a: 1}
     radius: 1.475
     mass: 34.17464
@@ -79,7 +79,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Jupiter
     id: 8
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 13b499fe2834897439aef78f523dee7c, type: 3}
     color: {r: 0.49056602, g: 0.25696316, b: 0, a: 1}
     radius: 1.75
     mass: 48.10564
@@ -87,7 +87,7 @@ MonoBehaviour:
     nextSizeSprite: {fileID: 0}
   - name: Sun
     id: 9
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: d1633d80f997845418c21db664ba138f, type: 3}
     color: {r: 1, g: 0, b: 0.030038834, a: 1}
     radius: 2
     mass: 62.83186
