@@ -1,24 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 
-public class PlanetSetting : MonoBehaviour
+[CreateAssetMenu(fileName = "PlanetsSetting", menuName = "ScriptableObjects/PlanetsSetting", order = 1)]
+
+public class PlanetSetting : ScriptableObject
 {
-    public PlanetManager planetManager;
-    public Transform spawnPoint;
-    public float launchForce = 10f;
+    public PlanetData[] planetDatas;
 
-    private void Start()
-    {
-        SpawnPlanet();
-    }
-
-    public void SpawnPlanet()
-    {
-        if (planetManager != null)
-        {
-            planetManager.SpawnPlanet(spawnPoint, launchForce);
-        }
-    }
 }
+

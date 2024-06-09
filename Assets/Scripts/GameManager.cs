@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-         gameOverUI.SetActive(true);
+         //gameOverUI.SetActive(true);
         //GameOver();
     }
 

@@ -77,10 +77,7 @@ public class PlanetShooter : MonoBehaviour
                 isLaunched = true;
             }
         }
-        if (isLaunched)
-        {
-            AttracToLandingSpot();
-        }
+
     }
 
     void AttracToLandingSpot()
@@ -97,12 +94,18 @@ public class PlanetShooter : MonoBehaviour
               gravityStrength = Mathf.Lerp(gravityStrength, 0, 1 - distance);
               planetRigidbody.velocity *= 0.01f; 
           }*/
-        planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
+       // planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
+        planetRigidbody.velocity += gravityDirection * 0.7f;
     }
     //public float maxSpeed = 100f;                                                  // 최대 속도 설정
     void FixedUpdate()
     {
         planetRigidbody.drag = 1.5f;           // 발사된 행성의 속도 저항력 설정
+
+        if (isLaunched)
+        {
+            AttracToLandingSpot();
+        }
     }
 
     void ShowTrajectory(Vector2 startPosition, Vector2 startVelocity)

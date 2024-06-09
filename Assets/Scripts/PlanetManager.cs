@@ -6,30 +6,56 @@ using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "PlanetsManager", menuName = "ScriptableObjects/PlanetManager", order = 1)]
-
-public class PlanetManager : ScriptableObject
+public class PlanetManager : MonoBehaviour
 {
-    public PlanetData[] planets;
+    private static PlanetManager instance;
+    public GameObject planetPrefab;
+    public PlanetSetting planetSetting;
 
-    public void SpawnPlanet(Transform spawnPoint, float launchForce)
+    public static PlanetManager Instance
     {
-        int index = Random.Range(0, planets.Length);
-        PlanetData planetData = planets[index];
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<PlanetManager>();
+            }
+            return instance;
+        }
+    }
 
-        GameObject planet = new GameObject(planetData.name);
-        planet.transform.position = spawnPoint.position;
-        planet.transform.localScale = Vector3.one * planetData.radius;
+    private Vector3 spawnPosition;
 
-        SpriteRenderer spriteRenderer = planet.AddComponent<SpriteRenderer>();
-        spriteRenderer.sprite = planetData.sprite;
-        spriteRenderer.color = planetData.color;
+    private void Start()
+    {
+        spawnPosition = new Vector3(-8, 0, 0);
 
-        Rigidbody2D rb = planet.AddComponent<Rigidbody2D>();
-        rb.AddForce(spawnPoint.up * launchForce, ForceMode2D.Impulse);
+        StartCoroutine(SpawnTest());
+    }
 
-        Planet planetComponent = planet.AddComponent<Planet>();
-        planetComponent.radius = planetData.radius;
-        planetComponent.nextSizeSprite = planetData.nextSizeSprite;
-    }   
+    IEnumerator SpawnTest()
+    {
+        yield return new WaitForSeconds(3);
+
+        SpawnPlanet(RandomData(), spawnPosition);
+    }
+    public PlanetData GetPlanetData(int id)
+    {
+        id = Random.Range(0, 4);
+        return planetSetting.planetDatas[id];
+    }
+
+    public PlanetData RandomData()
+    {
+        return GetPlanetData(Random.Range(0, 4));
+    }
+
+    public Planet SpawnPlanet(PlanetData data, Vector2 spawnPos)
+    {
+       Planet planet = Instantiate(planetPrefab, spawnPos, Quaternion.identity).GetComponent<Planet>();
+        planet.SetData(data);
+
+        return planet;
+    }
+
 }
