@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2968309049685835660}
   - component: {fileID: 6790465252501880990}
   - component: {fileID: 6267894649135589429}
-  - component: {fileID: 4173475366491310312}
+  - component: {fileID: 1648416137177989809}
   - component: {fileID: -5200138497377238466}
   - component: {fileID: 7783249848952584437}
   - component: {fileID: 7829558676834579159}
@@ -152,7 +152,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
---- !u!114 &4173475366491310312
+--- !u!114 &1648416137177989809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,14 +161,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 346885784252124188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52c71cc7a6336314590c96e539af84c0, type: 3}
+  m_Script: {fileID: 11500000, guid: f193695571d289a4eb7e241bd1618f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetRigidbody: {fileID: 6790465252501880990}
-  launchForce: 7
-  planet: {fileID: 346885784252124188}
+  planetRigidbody: {fileID: 0}
+  launchForce: 7.5
+  planet: {fileID: 0}
   landingSpot: {x: 0, y: 0}
-  resolution: 15
+  resolution: 30
 --- !u!114 &-5200138497377238466
 MonoBehaviour:
   m_ObjectHideFlags: 0
