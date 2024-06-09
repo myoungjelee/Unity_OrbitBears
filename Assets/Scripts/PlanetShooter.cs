@@ -12,7 +12,8 @@ public class PlanetShooter : MonoBehaviour
     public float launchForce = 7.5f;   // 마우스로 발사하는 힘의 배수
 
     public GameObject planet;
-    public GameObject landingSpot;         // 착륙점에 꼭 할당하기 (태그)
+    public Vector2 landingSpot;         // 착륙점에 꼭 할당하기 (태그)
+
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
@@ -36,6 +37,8 @@ public class PlanetShooter : MonoBehaviour
         {
             lineRenderer = GetComponent<LineRenderer>();   // LineRenderer를 가져오는 구문
         }
+
+        landingSpot = new Vector2(4, 0);
     }   
 
     void Update()
@@ -82,7 +85,7 @@ public class PlanetShooter : MonoBehaviour
 
     void AttracToLandingSpot()
     {
-        Vector2 direction = landingSpot.transform.position - transform.position;     // 방향 계산
+        Vector2 direction = (Vector3)landingSpot - transform.position;     // 방향 계산
         float distance = direction.magnitude;                                        // landingspot까지의 거리 계산
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 

@@ -30,15 +30,11 @@ public class PlanetManager : MonoBehaviour
     {
         spawnPosition = new Vector3(-8, 0, 0);
 
-        StartCoroutine(SpawnTest());
-    }
-
-    IEnumerator SpawnTest()
-    {
-        yield return new WaitForSeconds(3);
-
         SpawnPlanet(RandomData(), spawnPosition);
     }
+    
+
+
     public PlanetData GetPlanetData(int id)
     {
         id = Random.Range(0, 4);
@@ -57,5 +53,14 @@ public class PlanetManager : MonoBehaviour
 
         return planet;
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnPlanet(RandomData(), spawnPosition);
+        }
+    }
+    
 
 }
