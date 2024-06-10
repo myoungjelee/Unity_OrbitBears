@@ -24,21 +24,10 @@ public class GameOverUI : MonoBehaviour
 
     public void UpdateScoreText()
     {
-        if( scoreText != null)
-        {
-            scoreText.text = $"SCORE  :  {ScoreManager.Instance.score}";
-        }
-        else
-        {
-            Debug.Log("스코어텍스트가 없습니다.");
-        }
-    }
-
-    public void UpdateBestText()
-    {
-        BestText.text = $"BEST : {ScoreManager.Instance.score}";
 
     }
+
+   
 
     public void ReStart()
     {

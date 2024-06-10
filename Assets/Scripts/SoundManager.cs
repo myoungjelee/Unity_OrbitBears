@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip addClip;
 
     private static SoundManager instance;
+    
 
     public static SoundManager Instance
     {

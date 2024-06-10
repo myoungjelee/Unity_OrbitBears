@@ -84,15 +84,15 @@ public class GameManager : MonoBehaviour
 
        
 
-        if(ScoreManager.Instance.score > Get10thScore())
-        {
-            inputNameUI.SetActive(true);
-        }
-        else
-        {
-            // 게임 오버 UI를 활성화
-            gameOverUI.SetActive(true);
-        }
+        //if(ScoreManager.Instance.score > Get10thScore())
+        //{
+        //    inputNameUI.SetActive(true);
+        //}
+        //else
+        //{
+        //    // 게임 오버 UI를 활성화
+        //    gameOverUI.SetActive(true);
+        //}
 
     }
 
