@@ -33,6 +33,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
         ResetGame();
     }
 
@@ -56,11 +65,13 @@ public class GameManager : MonoBehaviour
 
     public void OnClick_RetryButton()
     {
+        SoundManager.Instance.PlayClickSound();
+
         StartCoroutine(RetryCoRoutine());
     }
 
     IEnumerator RetryCoRoutine()
-    {
+    {     
         yield return new WaitForSeconds(0.2f);
 
         // 활성화중인 씬 열기
@@ -69,15 +80,32 @@ public class GameManager : MonoBehaviour
 
     public void OnClick_QuitButton()
     {
-        // 게임 일시중지
-        Time.timeScale = 0f;
+        SoundManager.Instance.PlayClickSound();
+
+        StartCoroutine(QuitCoRoutine());
+    }
+
+    IEnumerator QuitCoRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
 
         // 종료 안내문 활성화
         quitPanel.gameObject.SetActive(true);
+
+        Time.timeScale = 0f;
     }
 
     public void OnClick_ConfirmButton()
     {
+        SoundManager.Instance.PlayClickSound();
+
+        StartCoroutine(ConfirmCoRoutine());
+    }
+
+    IEnumerator ConfirmCoRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+
         // 유니티 에디터에서 실행 중인 경우
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -89,19 +117,15 @@ public class GameManager : MonoBehaviour
 
     public void OnClick_CancleButton()
     {
-        // 게임 재개
-        Time.timeScale = 1f;
+
+        SoundManager.Instance.PlayClickSound();
 
         // 종료 안내문 비홠성화
         quitPanel.gameObject.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 
     public void ResetGame()
-    {
-        StartCoroutine(StartGame());
-    }
-
-    IEnumerator StartGame()
     {
         // 게임오버 UI 비활성화
         gameOverUI.SetActive(false);
@@ -109,17 +133,11 @@ public class GameManager : MonoBehaviour
         // 종료 UI 비활성화
         quitPanel.gameObject.SetActive(false);
 
-        // 게임 재개
-        Time.timeScale = 1f;
-
         // 강조한 후 정보 삭제
         PlayerPrefs.DeleteKey("latestScore");
         PlayerPrefs.DeleteKey("latestName");
 
         GetRankingListCount();
-
-        yield return new WaitForSeconds(3);
-
     }
 
     // 랭킹 리스트 갯수 파악하기
@@ -155,6 +173,7 @@ public class GameManager : MonoBehaviour
         }
         return 0; // 랭킹 테이블이 비어있는 경우 0 반환
     }
+
     public void GameOver()
     {
         // 게임 오버 상태를 참으로 변경
@@ -179,6 +198,5 @@ public class GameManager : MonoBehaviour
         {
             inputNameUI.SetActive(true);
         }
-
     }
 }

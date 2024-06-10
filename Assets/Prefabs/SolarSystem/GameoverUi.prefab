@@ -911,7 +911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6033053358086708459
 Transform:
   m_ObjectHideFlags: 0
@@ -941,10 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
-  BestText: {fileID: 0}
-  isGameOver: 0
-  gameOver: {fileID: 0}
-  rankingUI: {fileID: 0}
+  rnakingImage: {fileID: 2013454204691985434}
 --- !u!1 &3671819343634655215
 GameObject:
   m_ObjectHideFlags: 0

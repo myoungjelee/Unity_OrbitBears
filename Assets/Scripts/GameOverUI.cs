@@ -8,18 +8,18 @@ using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
-    //public ScoreManager scoreManager;
-    private TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText;
     public GameObject rnakingImage;
 
-    private void OnEnable()
+    private void Awake()
     {
         // "Score Text (TMP)" 이름을 가진 게임 오브젝트를 찾아 TextMeshProUGUI 컴포넌트를 할당
         scoreText = GameObject.Find("Score Text (TMP)").GetComponent<TextMeshProUGUI>();
-        //rankingImage = GameObject.Find("Ranking Image").GetComponent<Image>();
+    }
+    private void OnEnable()
+    {
         UpdateScoreText();
     }
-
 
     public void UpdateScoreText()
     {
@@ -35,14 +35,14 @@ public class GameOverUI : MonoBehaviour
 
     public void ReStart()
     {
-        // StartCoroutine(ReStartCoRoutine());
-        // 활성화중인 씬 열기
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       StartCoroutine(ReStartCoRoutine());   
     }
 
     IEnumerator ReStartCoRoutine()
     {
-        yield return new WaitForSeconds(0.2f);
+        SoundManager.Instance.PlayClickSound();
+
+        yield return new WaitForSecondsRealtime(0.2f);
 
         // 활성화중인 씬 열기
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -52,21 +52,12 @@ public class GameOverUI : MonoBehaviour
     {
         SoundManager.Instance.PlayClickSound();
 
-        // 유니티 에디터에서 실행 중인 경우
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        // 빌드 완료후 실행파일에서 실행 중인 경우
-        Application.Quit();
-
-        //StartCoroutine(QuitGameCoRoutine()); 
+        StartCoroutine(QuitGameCoRoutine()); 
     }
 
     IEnumerator QuitGameCoRoutine()
-    {
-        SoundManager.Instance.PlayClickSound();
-
-        yield return new WaitForSeconds(0.2f);
+    {     
+        yield return new WaitForSecondsRealtime(0.2f);
 
         // 유니티 에디터에서 실행 중인 경우
 #if UNITY_EDITOR
