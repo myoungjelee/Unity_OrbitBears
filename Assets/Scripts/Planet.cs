@@ -54,6 +54,9 @@ public class Planet : MonoBehaviour
                 Debug.Log("게임매니저가 null입니다.");
             }
         }
+
+        if (collision.gameObject.tag == "GravityField" && isTouch)
+        Debug.Log("행성이 나갔습니다.");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -75,7 +78,8 @@ public class Planet : MonoBehaviour
                 otherPlanet.isTouch = true;
                 GetComponent<CircleCollider2D>().enabled = false;
                 otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
-                Destroy(gameObject);             
+                Destroy(gameObject);
+                //gameObject.SetActive(false);             
             }
         }
     }

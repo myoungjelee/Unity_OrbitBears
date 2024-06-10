@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
+    public AudioSource startScenebgmAudioSource;
     public AudioSource bgmAudioSource;
     public AudioSource gameoverAudioSource;
     public AudioSource shootingAudioSource;
@@ -12,22 +14,53 @@ public class SoundManager : MonoBehaviour
 
     private static SoundManager instance;
     
-
     public static SoundManager Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<SoundManager>();
+                return null;
             }
             return instance;
         }
     }
 
-    void Start()
+    private void Awake()
     {
-        bgmAudioSource.Play();
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void PlayBgmSound()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName == "Start Scene")
+        {
+            if (!startScenebgmAudioSource.isPlaying)
+            {
+                startScenebgmAudioSource.Play();
+            }
+            else
+            {
+                startScenebgmAudioSource.Stop();
+            }
+        }
+        else
+        {
+            if (bgmAudioSource != null)
+            {
+                bgmAudioSource.Play();
+            }
+        }
     }
 
     public void PlayClickSound()

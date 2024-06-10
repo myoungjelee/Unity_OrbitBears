@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<GameManager>();
-                
+                return null;              
             }
             return instance;
         }
@@ -31,6 +30,24 @@ public class GameManager : MonoBehaviour
     public bool isGameOver { get; private set; }
 
     private bool isFullRanking;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        SoundManager.Instance.PlayBgmSound();
+    }
 
     private void OnEnable()
     {
