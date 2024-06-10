@@ -11,6 +11,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource mergeAudioSource;
 
     private static SoundManager instance;
+    
 
     public static SoundManager Instance
     {
