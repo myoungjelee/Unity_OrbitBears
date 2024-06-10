@@ -34,18 +34,46 @@ public class GameManager : MonoBehaviour
     private PlanetData currentPlanetData;
     private PlanetData nextPlanetData;
 
-    public event System.Action<PlanetData> OnReload;
+    public event Action<PlanetData> OnReload;
+    public event Action OnGameOver;
+
+    private bool isFullRanking;
+
     private void Awake()
     {
         ResetGame();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameOver();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            ScoreManager.Instance.AddScore(100);
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightAlt))
+        {
+            PlayerPrefs.DeleteKey("highscoreTable");
+        }
+    }
+
     public void OnClick_RetryButton()
     {
+        StartCoroutine(RetryCoRoutine());
+    }
+
+    IEnumerator RetryCoRoutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+
         // 활성화중인 씬 열기
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
     public void OnClick_QuitButton()
     {
         // 게임 일시중지
@@ -56,13 +84,13 @@ public class GameManager : MonoBehaviour
     }
     public void OnClick_ConfirmButton()
     {
+        // 유니티 에디터에서 실행 중인 경우
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         // 빌드 완료후 실행파일에서 실행 중인 경우
         Application.Quit();
-
-        // 유니티 에디터에서 실행 중인 경우
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
     }
 
     public void OnClick_CancleButton()
@@ -74,30 +102,9 @@ public class GameManager : MonoBehaviour
         quitPanel.gameObject.SetActive(false);
     }
 
-    public void GameOver()
-    {
-        // 게임 오버 상태를 참으로 변경
-        isGameOver = true;
-
-        // 게임 일시중지
-        Time.timeScale = 0f;
-
-       
-
-        if(ScoreManager.Instance.score > Get10thScore())
-        {
-            inputNameUI.SetActive(true);
-        }
-        else
-        {
-            // 게임 오버 UI를 활성화
-            gameOverUI.SetActive(true);
-        }
-    }
-
     public void ResetGame()
     {
-        StartCoroutine(StartGame());  
+        StartCoroutine(StartGame());
     }
 
     IEnumerator StartGame()
@@ -113,50 +120,38 @@ public class GameManager : MonoBehaviour
 
         maxPlanetID = 4;
 
+        // 강조한 후 정보 삭제
+        PlayerPrefs.DeleteKey("latestScore");
+        PlayerPrefs.DeleteKey("latestName");
+
+        GetRankingListCount();
+
         yield return new WaitForSeconds(3);
 
-         //gameOverUI.SetActive(true);
+        // gameOverUI.SetActive(true);
         //GameOver();
     }
-
-    // 랜덤 행성 선택
-    private PlanetData SelectRandomPlanet()
+    // 랭킹 리스트 갯수 파악하기
+    public bool GetRankingListCount()
     {
-        int id = UnityEngine.Random.Range(0, maxPlanetID + 1);
-
-        //return PlanetManager.GetPlanetData((uint)id);
-
-        return nextPlanetData;   // 지울예정
-    }
-
-    private void UpdatePlanetData()
-    {
-        currentPlanetData = nextPlanetData;
-        nextPlanetData = SelectRandomPlanet();
-
-
-        if (nextPlanetData.sprite != null)
+        string jsonString = PlayerPrefs.GetString("highscoreTable");
+        if (!string.IsNullOrEmpty(jsonString))
         {
-            nextPlanetImage.sprite = nextPlanetData.sprite;
+            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            if (highscores.highscoreEntries.Count >= 5)
+            {
+                return isFullRanking = true;
+            }
+            else
+            {
+                return isFullRanking = false;
+            }
         }
-        else
-        {
-            nextPlanetImage.sprite = null;
-        }
-
-        // nextPlanetImage 사이즈 설정
-        nextPlanetImage.rectTransform.sizeDelta = 50 * nextPlanetData.radius * Vector2.one;
+        return isFullRanking = false;
     }
 
-    // 행성 리로드
-    public void ReloadPlanet()
-    {
-        UpdatePlanetData();
-        OnReload?.Invoke(currentPlanetData);
-    }
-
-    // 10등의 스코어 점수 가져오기
-    public int Get10thScore()
+    // 꼴등랭킹의 스코어 점수 가져오기
+    public int GetLastRankingScore()
     {
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         if (!string.IsNullOrEmpty(jsonString))
@@ -168,5 +163,33 @@ public class GameManager : MonoBehaviour
             }
         }
         return 0; // 랭킹 테이블이 비어있는 경우 0 반환
+    }
+    public void GameOver()
+    {
+        // 게임 오버 상태를 참으로 변경
+        isGameOver = true;
+
+        // 게임 일시중지
+        Time.timeScale = 0f;
+
+        OnGameOver?.Invoke();
+
+        if (isFullRanking)
+        {
+            if (ScoreManager.Instance.score > GetLastRankingScore())
+            {
+                inputNameUI.SetActive(true);
+            }
+            else
+            {
+                // 게임 오버 UI를 활성화
+                gameOverUI.SetActive(true);
+            }
+        }
+        else
+        {
+            inputNameUI.SetActive(true);
+        }
+
     }
 }

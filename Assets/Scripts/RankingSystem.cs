@@ -13,19 +13,10 @@ namespace RankingSytem
         private Transform entryTemplate;
         private List<Transform> highscoreEntryTransforms;
 
-        private const int MAX_ENTRY = 10;
+        private const int MAX_ENTRY = 5;
 
-        private void Awake()
+        private void OnEnable()
         {
-            //AddHighscoreEntry(432, "AAA");
-            //AddHighscoreEntry(1200, "BBB");
-            //AddHighscoreEntry(78, "CCC");
-            //AddHighscoreEntry(347, "DDD");
-            //AddHighscoreEntry(908, "EEE");
-            //AddHighscoreEntry(1642, "FFF");
-            //AddHighscoreEntry(1592, "GGG");
-            //AddHighscoreEntry(1989, "HHH");
-
             entryContainer = transform.Find("ScoreEntryContainer");
             entryTemplate = entryContainer.Find("ScoreEntryTemplate");
 
@@ -58,17 +49,9 @@ namespace RankingSytem
             }
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.RightAlt))
-            {
-                PlayerPrefs.DeleteKey("highscoreTable");
-            }
-        }
-
         private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transforms)
         {
-            float templateHeight = 50f;
+            float templateHeight = 30f;
 
             Transform entryTransform = Instantiate(entryTemplate, container);
             RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
@@ -124,9 +107,7 @@ namespace RankingSytem
                 entryTransform.Find("ScoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("NameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
 
-                // 강조한 후 정보 삭제
-                PlayerPrefs.DeleteKey("latestScore");
-                PlayerPrefs.DeleteKey("latestName");
+
             }
 
 
@@ -161,7 +142,7 @@ namespace RankingSytem
             // 점수 내림차순 정렬
             highscores.highscoreEntries.Sort((x, y) => y.score.CompareTo(x.score));
 
-            // 상위 10개 점수만 유지
+            // 상위 5개 점수만 유지
             if (highscores.highscoreEntries.Count > MAX_ENTRY)
             {
                 highscores.highscoreEntries.RemoveRange(MAX_ENTRY, highscores.highscoreEntries.Count - MAX_ENTRY);
