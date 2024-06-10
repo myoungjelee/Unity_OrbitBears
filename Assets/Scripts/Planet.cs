@@ -62,7 +62,7 @@ public class Planet : MonoBehaviour
             {
                 isMerging = true;
                 ScoreManager.Instance.AddScore(data.mergeScore);
-                SoundManager.Instance.AddPlaySound();
+                SoundManager.Instance.PlayMergeSound();
 
                 PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id);
                 otherPlanet.SetData(nextPlanetData);

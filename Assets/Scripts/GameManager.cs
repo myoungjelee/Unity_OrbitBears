@@ -26,16 +26,8 @@ public class GameManager : MonoBehaviour
     public GameObject quitPanel;      // 종료 안내 UI
     public GameObject gameOverUI;     // 게임오버 UI
     public GameObject inputNameUI;    // 이름입력 UI
-    public Image nextPlanetImage;
 
     public bool isGameOver { get; private set; }
-    private int maxPlanetID;          // 생성될 행성의 최대 범위
-
-    private PlanetData currentPlanetData;
-    private PlanetData nextPlanetData;
-
-    public event Action<PlanetData> OnReload;
-    public event Action OnGameOver;
 
     private bool isFullRanking;
 
@@ -74,6 +66,7 @@ public class GameManager : MonoBehaviour
         // 활성화중인 씬 열기
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
     public void OnClick_QuitButton()
     {
         // 게임 일시중지
@@ -82,6 +75,7 @@ public class GameManager : MonoBehaviour
         // 종료 안내문 활성화
         quitPanel.gameObject.SetActive(true);
     }
+
     public void OnClick_ConfirmButton()
     {
         // 유니티 에디터에서 실행 중인 경우
@@ -118,8 +112,6 @@ public class GameManager : MonoBehaviour
         // 게임 재개
         Time.timeScale = 1f;
 
-        maxPlanetID = 4;
-
         // 강조한 후 정보 삭제
         PlayerPrefs.DeleteKey("latestScore");
         PlayerPrefs.DeleteKey("latestName");
@@ -128,9 +120,8 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        // gameOverUI.SetActive(true);
-        //GameOver();
     }
+
     // 랭킹 리스트 갯수 파악하기
     public bool GetRankingListCount()
     {
@@ -171,8 +162,6 @@ public class GameManager : MonoBehaviour
 
         // 게임 일시중지
         Time.timeScale = 0f;
-
-        OnGameOver?.Invoke();
 
         if (isFullRanking)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private AudioSource audioSource;
+    public AudioSource audioSource { get; private set; }
     public AudioClip bgmClip;
     public AudioClip gameoverClip;
     public AudioClip shootingClip;
@@ -29,38 +29,39 @@ public class SoundManager : MonoBehaviour
     {
         // AudioSource 컴포넌트 추가
         audioSource = gameObject.GetComponent<AudioSource>();
-        BGMPlaySound();
+        PlayBgmSound();
     }
 
-    public void BGMPlaySound()
+    public void PlayBgmSound()
     {
         // 오디오 클립 설정 및 재생
         audioSource.clip = bgmClip;
         audioSource.Play();
-            }
+    }
 
-    public void ClickPlaySound()
+    public void PlayClickSound()
     {
         audioSource.clip = clickClip;
         audioSource.Play();
     }
 
-    public void GameOverPlaySound()
+    public void PlayGameOverSound()
     {
         audioSource.clip = gameoverClip;
         audioSource.Play();
 
     }
 
-    public void ShootingPlaySound()
+    public void PlayShootSound()
     {
         audioSource.clip = shootingClip;
         audioSource.Play();
     }
 
-    public void AddPlaySound()
+    public void PlayMergeSound()
     {
         audioSource.clip = addClip;
         audioSource.Play();
     }
+
 }
