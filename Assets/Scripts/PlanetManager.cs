@@ -4,32 +4,70 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
+using UnityEngine.UI;
 
 
-[CreateAssetMenu(fileName = "PlanetsManager", menuName = "ScriptableObjects/PlanetManager", order = 1)]
 
-public class PlanetManager : ScriptableObject
+public class PlanetManager : MonoBehaviour
 {
-    public PlanetData[] planets;
+    private static PlanetManager instance;
+    public GameObject planetPrefab;
+    public PlanetSetting planetSetting;
+    public Image nextPlanetImage;
+    public Transform planetSpawnPoint;
 
-    public void SpawnPlanet(Transform spawnPoint, float launchForce)
+    private PlanetData currentPlanetData;
+    private PlanetData nextPlanetData;
+
+    public static PlanetManager Instance
     {
-        int index = Random.Range(0, planets.Length);
-        PlanetData planetData = planets[index];
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<PlanetManager>();
+            }
+            return instance;
+        }
+    }
 
-        GameObject planet = new GameObject(planetData.name);
-        planet.transform.position = spawnPoint.position;
-        planet.transform.localScale = Vector3.one * planetData.radius;
+    private void Start()
+    {
+        currentPlanetData = GetRandomPlanetData();
+        nextPlanetData = GetRandomPlanetData();
+        ReloadingPlanet();
+    }  
 
-        SpriteRenderer spriteRenderer = planet.AddComponent<SpriteRenderer>();
-        spriteRenderer.sprite = planetData.sprite;
-        spriteRenderer.color = planetData.color;
+    public Planet SpawnPlanet(PlanetData data, Vector2 spawnPos)
+    {
+       Planet planet = Instantiate(planetPrefab, spawnPos, Quaternion.identity).GetComponent<Planet>();
+        planet.SetData(data);
 
-        Rigidbody2D rb = planet.AddComponent<Rigidbody2D>();
-        rb.AddForce(spawnPoint.up * launchForce, ForceMode2D.Impulse);
+        return planet;
+    }
 
-        Planet planetComponent = planet.AddComponent<Planet>();
-        planetComponent.radius = planetData.radius;
-        planetComponent.nextSizeSprite = planetData.nextSizeSprite;
-    }   
+    public PlanetData GetRandomPlanetData()
+    {
+        int id = Random.Range(0, 4);
+        return planetSetting.planetDatas[id];
+    }
+
+    public void ReloadingPlanet()
+    {
+        currentPlanetData = nextPlanetData;
+        nextPlanetData = GetRandomPlanetData();
+
+        if(nextPlanetData.sprite != null)
+        {
+            nextPlanetImage.sprite = nextPlanetData.sprite;
+            nextPlanetImage.rectTransform.sizeDelta = 75 * nextPlanetData.radius * Vector2.one;
+        }
+
+        SpawnPlanet(currentPlanetData, planetSpawnPoint.position);
+    }
+
+    public PlanetData NextPlanetData(int currentData)
+    {
+        return planetSetting.planetDatas[currentData + 1];
+    } 
 }

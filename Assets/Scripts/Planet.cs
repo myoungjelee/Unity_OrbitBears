@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class PlanetData
@@ -17,37 +18,83 @@ public class PlanetData
 
 public class Planet : MonoBehaviour
 {
-
+    private PlanetData data;
     public float radius;
     public Sprite nextSizeSprite;
 
+    private bool isTouch;
+    private bool isSpawn;
+    private bool isMerging;
+
+    public void SetData(PlanetData newData)
+    {
+        data = newData;
+        GetComponent<SpriteRenderer>().sprite = data.sprite;
+        GetComponent<Rigidbody2D>().mass = data.mass;
+        transform.localScale = new Vector3(data.radius * 2.5f, data.radius * 2.5f, data.radius * 2.5f);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "GravityField" && isSpawn == false)
+        {
+            PlanetManager.Instance.ReloadingPlanet();
+            isSpawn = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "GravityField" && isTouch == true && !isMerging)
+        {
+            GameManager.Instance.GameOver();
+            Debug.Log("아웃");
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
+        // 파괴 상태를 확인
+        if (gameObject == null) return;
 
-        if (otherPlanet != null && Mathf.Approximately(otherPlanet.radius, this.radius))
+        if (collision.gameObject.tag == "Planet")
         {
-            Vector3 collisionPoint = collision.contacts[0].point;
-            Destroy(otherPlanet.gameObject);
-            Destroy(this.gameObject);
-
-            if (nextSizeSprite != null)
+            Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
+            if (otherPlanet.data == data)
             {
-                GameObject newPlanet = new GameObject("Planet");
-                newPlanet.transform.position = collisionPoint;
-                newPlanet.transform.localScale = Vector3.one * (this.radius * 2); // 다음 크기로 증가
+                isMerging = true;
+                ScoreManager.Instance.AddScore(data.mergeScore);
+                SoundManager.Instance.AddPlaySound();
 
-                SpriteRenderer spriteRenderer = newPlanet.AddComponent<SpriteRenderer>();
-                spriteRenderer.sprite = nextSizeSprite;
-
-                Rigidbody2D rb = newPlanet.AddComponent<Rigidbody2D>();
-                rb.AddForce(collision.relativeVelocity, ForceMode2D.Impulse);
-
-                Planet planetComponent = newPlanet.AddComponent<Planet>();
-                planetComponent.radius = this.radius * 2; // 다음 크기로 증가
-                planetComponent.nextSizeSprite = this.nextSizeSprite; // 다음 크기의 스프라이트 설정
-
+                PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id);
+                otherPlanet.SetData(nextPlanetData);
+                otherPlanet.isTouch = true;
+                ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                Destroy(gameObject);             
             }
         }
     }
+
+    private void ApplyForceToOther(Vector2 center, PlanetData data)
+    {
+        float mergeForce = 15;
+        var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
+        foreach (var planetCol in overlappingPlanets)
+        {
+            if (planetCol.gameObject == gameObject) continue;
+            if (!planetCol.gameObject.CompareTag("Planet")) continue;
+
+            Planet otherPlanet = planetCol.gameObject.GetComponent<Planet>();
+            
+            if (otherPlanet.data == this.data) continue;
+
+            var planetRb = planetCol.GetComponent<Rigidbody2D>();
+
+            var dir = (Vector2)otherPlanet.transform.position - center;
+
+            var dist = dir.magnitude;
+            dist -= data.radius + otherPlanet.data.radius;
+
+            planetRb.AddForce(-dir.normalized * dist * Mathf.Sqrt(data.mass) * mergeForce, ForceMode2D.Impulse);
+        }
+    }
+
 }

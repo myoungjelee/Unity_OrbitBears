@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameOverUI : MonoBehaviour
 {
     //public ScoreManager scoreManager;
-    private TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText;
     public TextMeshPro BestText;
     public bool isGameOver = false;
     public GameObject gameOver;
@@ -16,8 +16,6 @@ public class GameOverUI : MonoBehaviour
 
     private void OnEnable()
     {
-        // "Score Text (TMP)" 이름을 가진 게임 오브젝트를 찾아 TextMeshProUGUI 컴포넌트를 할당
-        scoreText = GameObject.Find("Score Text (TMP)").GetComponent<TextMeshProUGUI>();
         UpdateScoreText();
     }
 

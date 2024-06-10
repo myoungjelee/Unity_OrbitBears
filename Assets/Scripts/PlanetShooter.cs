@@ -12,7 +12,8 @@ public class PlanetShooter : MonoBehaviour
     public float launchForce = 7.5f;   // 마우스로 발사하는 힘의 배수
 
     public GameObject planet;
-    public GameObject landingSpot;         // 착륙점에 꼭 할당하기 (태그)
+    public Vector2 landingSpot;         // 착륙점에 꼭 할당하기 (태그)
+
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
@@ -36,6 +37,8 @@ public class PlanetShooter : MonoBehaviour
         {
             lineRenderer = GetComponent<LineRenderer>();   // LineRenderer를 가져오는 구문
         }
+
+        landingSpot = new Vector2(4, 0);
     }   
 
     void Update()
@@ -77,15 +80,12 @@ public class PlanetShooter : MonoBehaviour
                 isLaunched = true;
             }
         }
-        if (isLaunched)
-        {
-            AttracToLandingSpot();
-        }
+
     }
 
     void AttracToLandingSpot()
     {
-        Vector2 direction = landingSpot.transform.position - transform.position;     // 방향 계산
+        Vector2 direction = (Vector3)landingSpot - transform.position;     // 방향 계산
         float distance = direction.magnitude;                                        // landingspot까지의 거리 계산
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 
@@ -97,12 +97,18 @@ public class PlanetShooter : MonoBehaviour
               gravityStrength = Mathf.Lerp(gravityStrength, 0, 1 - distance);
               planetRigidbody.velocity *= 0.01f; 
           }*/
-        planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
+       // planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
+        planetRigidbody.velocity += gravityDirection * 0.7f;
     }
     //public float maxSpeed = 100f;                                                  // 최대 속도 설정
     void FixedUpdate()
     {
         planetRigidbody.drag = 1.5f;           // 발사된 행성의 속도 저항력 설정
+
+        if (isLaunched)
+        {
+            AttracToLandingSpot();
+        }
     }
 
     void ShowTrajectory(Vector2 startPosition, Vector2 startVelocity)
@@ -132,4 +138,5 @@ public class PlanetShooter : MonoBehaviour
     {
         lineRenderer.positionCount = 0; // 궤적 지우기
     }
+
 }

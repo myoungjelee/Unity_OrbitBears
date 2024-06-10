@@ -24,13 +24,13 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        score = 6666;
+        score = 0;
         UpdateScoreText();
     }
 
     public void AddScore(int addScore)
     {
-        this.score += addScore;
+          score = score + addScore;
         UpdateScoreText();
     }
 
