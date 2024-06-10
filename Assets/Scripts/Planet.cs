@@ -26,11 +26,6 @@ public class Planet : MonoBehaviour
     private bool isSpawn;
     private bool isMerging;
 
-
-    private void Start()
-    {
-    }
-
     public void SetData(PlanetData newData)
     {
         data = newData;
@@ -69,7 +64,7 @@ public class Planet : MonoBehaviour
                 ScoreManager.Instance.AddScore(data.mergeScore);
                 SoundManager.Instance.AddPlaySound();
 
-                PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id + 1);
+                PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id);
                 otherPlanet.SetData(nextPlanetData);
                 otherPlanet.isTouch = true;
                 ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);

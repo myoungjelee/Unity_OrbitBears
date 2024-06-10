@@ -31,21 +31,12 @@ public class PlanetManager : MonoBehaviour
         }
     }
 
-    private Vector3 spawnPosition;
-
     private void Start()
     {
-        spawnPosition = new Vector3(-8, 0, 0);
-
         currentPlanetData = GetRandomPlanetData();
         nextPlanetData = GetRandomPlanetData();
         ReloadingPlanet();
     }  
-
-    public PlanetData RandomData()
-    {
-        return GetRandomPlanetData();
-    }
 
     public Planet SpawnPlanet(PlanetData data, Vector2 spawnPos)
     {
@@ -75,8 +66,8 @@ public class PlanetManager : MonoBehaviour
         SpawnPlanet(currentPlanetData, planetSpawnPoint.position);
     }
 
-    public PlanetData NextPlanetData(int id)
+    public PlanetData NextPlanetData(int currentData)
     {
-        return planetSetting.planetDatas[id];
+        return planetSetting.planetDatas[currentData + 1];
     } 
 }
