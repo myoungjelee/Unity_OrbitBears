@@ -54,7 +54,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rankingSystem: {fileID: 0}
-  rankingUI: {fileID: 0}
   gameOverUI: {fileID: 0}
 --- !u!1 &186437301644378335
 GameObject:
@@ -1306,7 +1305,7 @@ Canvas:
   m_GameObject: {fileID: 8298368445369584981}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

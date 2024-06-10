@@ -41,20 +41,20 @@ public class Planet : MonoBehaviour
             isSpawn = true;
         }
     }
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "GravityField" && isTouch == true && !isMerging)
-    //    {
-    //        if(GameManager.Instance != null)
-    //        {
-    //            GameManager.Instance.GameOver();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("게임매니저가 null입니다.");
-    //        }
-    //    }
-    //}
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "GravityField" && isTouch == true && !isMerging)
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameOver();
+            }
+            else
+            {
+                Debug.Log("게임매니저가 null입니다.");
+            }
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -74,7 +74,7 @@ public class Planet : MonoBehaviour
                 otherPlanet.SetData(nextPlanetData);
                 otherPlanet.isTouch = true;
                 GetComponent<CircleCollider2D>().enabled = false;
-                ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
                 Destroy(gameObject);             
             }
         }
@@ -82,7 +82,7 @@ public class Planet : MonoBehaviour
 
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
-        float mergeForce = 15;
+        float mergeForce = 50;
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
         {

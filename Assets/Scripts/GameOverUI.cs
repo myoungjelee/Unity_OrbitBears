@@ -70,6 +70,7 @@ public class GameOverUI : MonoBehaviour
 
     public void Ranking()
     {
+        SoundManager.Instance.PlayClickSound();
         bool isRnak = rnakingImage.activeSelf;
         rnakingImage.SetActive(!isRnak);
     }

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
             if (instance == null)
             {
                 instance = FindObjectOfType<GameManager>();
+                
             }
             return instance;
         }
@@ -31,18 +32,26 @@ public class GameManager : MonoBehaviour
 
     private bool isFullRanking;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
         ResetGame();
+    }
+
+    public void ResetGame()
+    {
+        // 게임오버 UI 비활성화
+        gameOverUI.SetActive(false);
+
+        // 종료 UI 비활성화
+        quitPanel.gameObject.SetActive(false);
+
+        Time.timeScale = 1.0f;
+
+        // 강조한 후 정보 삭제
+        PlayerPrefs.DeleteKey("latestScore");
+        PlayerPrefs.DeleteKey("latestName");
+
+        GetRankingListCount();
     }
 
     private void Update()
@@ -129,21 +138,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         // 종료 안내문 비홠성화
         quitPanel.gameObject.SetActive(false);
-    }
-
-    public void ResetGame()
-    {
-        // 게임오버 UI 비활성화
-        gameOverUI.SetActive(false);
-
-        // 종료 UI 비활성화
-        quitPanel.gameObject.SetActive(false);
-
-        // 강조한 후 정보 삭제
-        PlayerPrefs.DeleteKey("latestScore");
-        PlayerPrefs.DeleteKey("latestName");
-
-        GetRankingListCount();
     }
 
     // 랭킹 리스트 갯수 파악하기

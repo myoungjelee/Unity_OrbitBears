@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class GravityField : MonoBehaviour
 {
-    private float radius = 5f;
-    private float tolerance = 0.1f;
+    public float radius = 5f;
+    public float tolerance = 0.1f;
     [Header("Warning Indicator")]
     public SpriteRenderer warningSprite;
     [Range(0.5f, 1)] public float warningStartRadiusScale = 0.7f;
     public Gradient warningGradient;
-    private float warningAlphaScale = 0.2f;
+    public float warningAlphaScale = 0.2f;
     [Header("Gravity VFX")]
-    private float gravityVfxDuration = 4f;
-    private float gravityVfxInterval = 4f;
-    private Transform gravityVFX;
-    private Color gravityVfxInitialColor = new Color(255, 255, 255, 51);
+    public float gravityVfxDuration = 4f;
+    public float gravityVfxInterval = 4f;
+    public Transform gravityVFX;
+    public Color gravityVfxInitialColor = new Color(255, 255, 255, 51);
 
-    private void Start()
+    private void Awake()
     {
         transform.localScale = Vector3.one * radius * 2f;
-        gravityVFX = GameObject.Find("GravityFieldAnimation").transform;
+       // gravityVFX = GameObject.Find("GravityFieldAnimation").transform;
     }
 
     //public bool IsIn(Planet planet)
@@ -61,5 +61,5 @@ public class GravityField : MonoBehaviour
         gravityVFX.GetComponent<SpriteRenderer>().color = newColor;
     }
 
-   // private void OnValidate() => Awake();
+    private void OnValidate() => Awake();
 }

@@ -214,7 +214,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -692,13 +692,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b6f306fc5851846b76994edcc61ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 5
+  tolerance: 0.1
   warningSprite: {fileID: 1062609324}
-  warningStartRadiusScale: 0.87627715
+  warningStartRadiusScale: 0.7
   warningGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 1, g: 0, b: 0, a: 0}
+    key1: {r: 1, g: 0, b: 0, a: 0.49803922}
+    key2: {r: 0, g: 0, b: 0, a: 1}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -713,8 +715,8 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
-    atime2: 0
+    atime1: 32768
+    atime2: 65535
     atime3: 0
     atime4: 0
     atime5: 0
@@ -723,7 +725,12 @@ MonoBehaviour:
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
+    m_NumAlphaKeys: 3
+  warningAlphaScale: 0.2
+  gravityVfxDuration: 4
+  gravityVfxInterval: 4
+  gravityVFX: {fileID: 454042057}
+  gravityVfxInitialColor: {r: 1, g: 1, b: 1, a: 0.2}
 --- !u!58 &1358464659
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -764,17 +771,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3169403501163144810, guid: 2d3a6815ac4bef7439832d0c0170a7d5, type: 3}
   m_PrefabInstance: {fileID: 1216204901}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1406659288 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6360496618974491338, guid: 2d3a6815ac4bef7439832d0c0170a7d5, type: 3}
-  m_PrefabInstance: {fileID: 1216204901}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 793ed65de13d1bd458a4b8a12b117a58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1452456156
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,18 +877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 183215233}
     m_Modifications:
-    - target: {fileID: 3124283370965999082, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1406659288}
     - target: {fileID: 3287701048299255484, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
       propertyPath: m_Name
       value: GameoverUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3830245111211379282, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1406659288}
     - target: {fileID: 6033053358086708459, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
