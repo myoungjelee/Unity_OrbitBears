@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RetryCoRoutine()
     {     
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.25f);
 
         // 활성화중인 씬 열기
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator QuitCoRoutine()
     {
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         // 종료 안내문 활성화
         quitPanel.gameObject.SetActive(true);
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ConfirmCoRoutine()
     {
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         // 유니티 에디터에서 실행 중인 경우
 #if UNITY_EDITOR
@@ -117,12 +117,18 @@ public class GameManager : MonoBehaviour
 
     public void OnClick_CancleButton()
     {
-
         SoundManager.Instance.PlayClickSound();
 
+        StartCoroutine (CancleCoRoutine()); 
+    }
+
+    IEnumerator CancleCoRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+
+        Time.timeScale = 1.0f;
         // 종료 안내문 비홠성화
         quitPanel.gameObject.SetActive(false);
-        Time.timeScale = 1.0f;
     }
 
     public void ResetGame()
