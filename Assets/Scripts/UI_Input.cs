@@ -7,7 +7,6 @@ using RankingSytem;
 public class UI_Input : MonoBehaviour
 {
     public RankingSystem rankingSystem;
-    public GameObject rankingUI;
     public GameObject gameOverUI;
 
     private TMP_InputField inputField;
@@ -19,9 +18,9 @@ public class UI_Input : MonoBehaviour
 
     public void OnClick_CheckButton()
     {
-        rankingSystem.AddHighscoreEntry(45, inputField.text);
-        rankingUI.SetActive(true);
+        rankingSystem.AddHighscoreEntry(ScoreManager.Instance.score, inputField.text);
         gameObject.SetActive(false);
+        gameOverUI.SetActive(true);
     }
 
     public void OnClick_XButton()
