@@ -1194,6 +1194,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177731457 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4527516012450942640, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+  m_PrefabInstance: {fileID: 1538167104}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1216204901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1770,6 +1781,10 @@ PrefabInstance:
       propertyPath: rankingUI
       value: 
       objectReference: {fileID: 1367015045}
+    - target: {fileID: 2352781750705941431, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1177731457}
     - target: {fileID: 2352781750705941431, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
       propertyPath: scoreManager
       value: 

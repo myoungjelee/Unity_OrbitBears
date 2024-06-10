@@ -179,5 +179,5 @@ MonoBehaviour:
   planetRigidbody: {fileID: 0}
   launchForce: 7.5
   planet: {fileID: 0}
-  landingSpot: {fileID: 7158898447060900163, guid: b62679780c9f09646a7fccf97072ac3b, type: 3}
+  landingSpot: {x: 0, y: 0}
   resolution: 30

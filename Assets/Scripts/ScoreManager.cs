@@ -30,7 +30,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int addScore)
     {
-        this.score += addScore;
+          score = score + addScore;
         UpdateScoreText();
     }
 

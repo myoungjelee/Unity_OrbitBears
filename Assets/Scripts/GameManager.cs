@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
             // 게임 오버 UI를 활성화
             gameOverUI.SetActive(true);
         }
-
     }
 
     public void ResetGame()

@@ -24,7 +24,8 @@ public class Planet : MonoBehaviour
 
     private bool isTouch;
     private bool isSpawn;
-    private bool isMerge;
+    private bool isMerging;
+
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class Planet : MonoBehaviour
         data = newData;
         GetComponent<SpriteRenderer>().sprite = data.sprite;
         GetComponent<Rigidbody2D>().mass = data.mass;
-        transform.localScale = new Vector3(data.radius * 2f, data.radius * 2f, data.radius * 2f);
+        transform.localScale = new Vector3(data.radius * 2.5f, data.radius * 2.5f, data.radius * 2.5f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,31 +46,32 @@ public class Planet : MonoBehaviour
             isSpawn = true;
         }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "GravityField" && isTouch == true && !isMerging)
+        {
+            GameManager.Instance.GameOver();
+            Debug.Log("¾Æ¿ô");
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Planet")
-        {
-            isTouch = true;
+        // ÆÄ±« »óÅÂ¸¦ È®ÀÎ
+        if (gameObject == null) return;
 
+        if (collision.gameObject.tag == "Planet")
+        {
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
-           // if (isMerge) return;
             if (otherPlanet.data == data)
             {
-                //isMerge = true;
-                //otherPlanet.isMerge = true;
-
-                //Planet nextPlanet = PlanetManager.Instance.SpawnPlanet(PlanetManager.Instance.NextPlanetData(data.id + 1), collision.contacts[0].point);              
-                //nextPlanet.isSpawn = true;
-                //nextPlanet.isTouch = true;
-
-                //Destroy(gameObject);
-                //Destroy(otherPlanet.gameObject);
-               // otherPlanet.isMerge = true;
+                isMerging = true;
                 ScoreManager.Instance.AddScore(data.mergeScore);
                 SoundManager.Instance.AddPlaySound();
 
                 PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id + 1);
                 otherPlanet.SetData(nextPlanetData);
+                otherPlanet.isTouch = true;
                 ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
                 Destroy(gameObject);             
             }
@@ -78,6 +80,7 @@ public class Planet : MonoBehaviour
 
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
+        float mergeForce = 15;
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
         {
@@ -95,7 +98,7 @@ public class Planet : MonoBehaviour
             var dist = dir.magnitude;
             dist -= data.radius + otherPlanet.data.radius;
 
-            planetRb.AddForce(-dir.normalized * dist * Mathf.Sqrt(data.mass) * 15, ForceMode2D.Impulse);
+            planetRb.AddForce(-dir.normalized * dist * Mathf.Sqrt(data.mass) * mergeForce, ForceMode2D.Impulse);
         }
     }
 
