@@ -22,9 +22,18 @@ public class Planet : MonoBehaviour
     public float radius;
     public Sprite nextSizeSprite;
 
-    private bool isTouch;
+    public bool isTouch;
     private bool isSpawn;
-    private bool isMerging;
+    public bool isMerging;
+
+    private GravityField gravityField;
+
+    private bool isInGravityField = false;
+
+    private void Start()
+    {
+        gravityField = PlanetManager.Instance.gravityField;
+    }
 
     public void SetData(PlanetData newData)
     {
@@ -41,49 +50,52 @@ public class Planet : MonoBehaviour
             isSpawn = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "GravityField" && isTouch == true && !isMerging)
+        if (collision.gameObject.tag == "GravityField" && isTouch == true && isMerging == false)
         {
-            if (GameManager.Instance != null)
+            if(GameManager.Instance != null)
             {
                 GameManager.Instance.GameOver();
             }
-            else
-            {
-                Debug.Log("게임매니저가 null입니다.");
-            }
         }
-
-        if (collision.gameObject.tag == "GravityField" && isTouch)
-        Debug.Log("행성이 나갔습니다.");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 파괴 상태를 확인
-        if (gameObject == null) return;
-
         if (collision.gameObject.tag == "Planet")
         {
+            isTouch = true;
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
             if (otherPlanet.data == data)
             {
                 isMerging = true;
+                otherPlanet.isMerging = true;
+
                 ScoreManager.Instance.AddScore(data.mergeScore);
                 SoundManager.Instance.PlayMergeSound();
 
                 PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id);
                 otherPlanet.SetData(nextPlanetData);
-                otherPlanet.isTouch = true;
-                GetComponent<CircleCollider2D>().enabled = false;
-                otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
-                Destroy(gameObject);
-                //gameObject.SetActive(false);             
+                otherPlanet.PlanetInitialization();
+
+                //// 파괴 전에 콜라이더와 비활성화
+                //GetComponent<CircleCollider2D>().enabled = false;              
+
+               // otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                Destroy(this.gameObject);
             }
         }
     }
 
+    private void PlanetInitialization()
+    {
+        isTouch = true;
+        isSpawn = true;
+        isMerging = false;
+    }
+        
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
         float mergeForce = 50;
@@ -108,4 +120,26 @@ public class Planet : MonoBehaviour
         }
     }
 
+    public PlanetData GetData()
+    {
+        return data;
+    }
+
+    //private void Update()
+    //{
+    //    if (isTouch && isInGravityField)
+    //    {
+    //        gravityField.SetDistanceFromCenter(this);            
+    //    }
+
+    //    if(isTouch && !isInGravityField)
+    //    {
+    //        GameManager.Instance.GameOver();
+    //    }
+    //}
+
+    //private void FixedUpdate()
+    //{
+    //    isInGravityField = gravityField.IsInField(this);
+    //}
 }

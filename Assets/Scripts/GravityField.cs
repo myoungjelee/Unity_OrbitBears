@@ -19,24 +19,23 @@ public class GravityField : MonoBehaviour
 
     private void Awake()
     {
-        transform.localScale = Vector3.one * radius * 2f;
-       // gravityVFX = GameObject.Find("GravityFieldAnimation").transform;
+        transform.localScale = Vector3.one * radius * 2f;    
     }
 
-    //public bool IsIn(Planet planet)
-    //{
-    //    var planetRadius = planet.GetData().radius;
-    //    var planetPos = planet.transform.position;
+    public bool IsInField(Planet planet)
+    {
+        var planetRadius = planet.GetData().radius;
+        var planetPos = planet.transform.position;
 
-    //    return (Vector3.Distance(planetPos, transform.position) + planetRadius <= radius + tolerance);
-    //}
+        return (Vector3.Distance(planetPos, transform.position) + planetRadius <= radius + tolerance);
+    }
 
     private float maxPlanetDistance = 0f;
     public void SetDistanceFromCenter(Planet planet)
     {
         var planetPos = planet.transform.position;
         var distance = Vector3.Distance(planetPos, transform.position);
-        //distance += planet.GetData().radius;
+        distance += planet.GetData().radius;
         maxPlanetDistance = Mathf.Max(maxPlanetDistance, distance);
     }
 

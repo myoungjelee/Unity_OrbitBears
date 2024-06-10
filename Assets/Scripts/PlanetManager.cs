@@ -10,6 +10,7 @@ public class PlanetManager : MonoBehaviour
     public PlanetSetting planetSetting;
     public Image nextPlanetImage;
     public Transform planetSpawnPoint;
+    public GravityField gravityField;
 
     private PlanetData currentPlanetData;
     private PlanetData nextPlanetData;

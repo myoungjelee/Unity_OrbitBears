@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -193,6 +193,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (isGameOver) return; // 이미 게임오버 상태라면 실행하지 않음
+
         // 게임 오버 상태를 참으로 변경
         isGameOver = true;
 
