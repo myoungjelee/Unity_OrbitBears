@@ -31,7 +31,7 @@ public class Planet : MonoBehaviour
         data = newData;
         GetComponent<SpriteRenderer>().sprite = data.sprite;
         GetComponent<Rigidbody2D>().mass = data.mass;
-        transform.localScale = new Vector3(data.radius * 2.5f, data.radius * 2.5f, data.radius * 2.5f);
+        transform.localScale = data.radius * 2f * Vector3.one;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
