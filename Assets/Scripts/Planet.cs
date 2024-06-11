@@ -22,7 +22,7 @@ public class Planet : MonoBehaviour
     public float radius;
     public Sprite nextSizeSprite;
 
-    private bool isTouch;
+    public bool isTouch;
     private bool isSpawn;
     private bool isMerging;
 
