@@ -389,8 +389,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 8539236492090188955}
+        m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
         m_MethodName: OnClick_RetryButton
         m_Mode: 1
         m_Arguments:
@@ -522,8 +522,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 8539236492090188955}
+        m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
         m_MethodName: OnClick_ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -1104,6 +1104,7 @@ GameObject:
   - component: {fileID: 2255231151695432021}
   - component: {fileID: 2098823238928796709}
   - component: {fileID: 6636936722063909183}
+  - component: {fileID: 8539236492090188955}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -1198,6 +1199,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8539236492090188955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389223336361529613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3545994c4103f4c9a64e272e38c6b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quitPanel: {fileID: 8229153127124379373}
 --- !u!1 &4879037593039116234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,8 +1333,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 8539236492090188955}
+        m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
         m_MethodName: OnClick_CancleButton
         m_Mode: 1
         m_Arguments:
@@ -1948,8 +1962,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 8539236492090188955}
+        m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
         m_MethodName: OnClick_QuitButton
         m_Mode: 1
         m_Arguments:

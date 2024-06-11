@@ -61,7 +61,7 @@ public class Planet : MonoBehaviour
             }
             else
             {
-                Debug.Log("게임매니저 널!!!");
+                Debug.Log("게임매니저 Null!!");
             }
         }
     }
@@ -130,21 +130,21 @@ public class Planet : MonoBehaviour
         return data;
     }
 
-    //private void Update()
-    //{
-    //    if (isTouch && isInGravityField)
-    //    {
-    //        gravityField.SetDistanceFromCenter(this);            
-    //    }
+    private void Update()
+    {
+        if (isTouch && isInGravityField)
+        {
+            gravityField.SetDistanceFromCenter(this);
+        }
 
-    //    if(isTouch && !isInGravityField)
-    //    {
-    //        GameManager.Instance.GameOver();
-    //    }
-    //}
+        //if (isTouch && !isInGravityField)
+        //{
+        //    GameManager.Instance.GameOver();
+        //}
+    }
 
-    //private void FixedUpdate()
-    //{
-    //    isInGravityField = gravityField.IsInField(this);
-    //}
+    private void FixedUpdate()
+    {
+        isInGravityField = gravityField.IsInField(this);
+    }
 }

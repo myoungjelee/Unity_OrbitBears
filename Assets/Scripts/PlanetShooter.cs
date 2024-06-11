@@ -102,7 +102,7 @@ public class PlanetShooter : MonoBehaviour
         float gravityStrength = 5 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
 
         //planetRigidbody.velocity += gravityDirection * gravityStrength * Time.fixedDeltaTime;
-        planetRigidbody.velocity += gravityDirection * 2.2f;
+        planetRigidbody.velocity += gravityDirection * 0.7f;
     }
 
     void FixedUpdate()

@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -57,10 +57,17 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         // 게임오버 UI 비활성화
-        gameOverUI.SetActive(false);
+        if(gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
 
-        //// 종료 UI 비활성화
-        quitPanel.gameObject.SetActive(false);
+        if(quitPanel != null)
+        {
+            //// 종료 UI 비활성화
+            quitPanel.gameObject.SetActive(false);
+        }
+        
 
         Time.timeScale = 1.0f;
 
