@@ -76,7 +76,11 @@ public class PlanetShooter : MonoBehaviour
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
-                planetRigidbody.velocity = direction * dragDistance * launchForce;
+                Vector2 Force = direction * dragDistance * launchForce;
+                float maxMagnitude = 50.0f; // 최대 크기
+                Vector2 shootForce = Vector2.ClampMagnitude(Force, maxMagnitude);
+
+                planetRigidbody.velocity = shootForce;
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
@@ -92,17 +96,34 @@ public class PlanetShooter : MonoBehaviour
         }
     }
 
-    void AttracToLandingSpot()
+    void AttractToLandingSpot()
     {
         Vector2 direction = (Vector3)landingSpot - transform.position;     // 방향 계산
         float distance = direction.magnitude;                                        // landingspot까지의 거리 계산
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 
         float adjustedDistance = Mathf.Max(distance, 0.001f);                        // 최소 거리 값을 #로 설정하여 거리가 #보다 작아지지 않도록 함
-        float gravityStrength = 5 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
+        float gravityStrength = 100 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
 
         //planetRigidbody.velocity += gravityDirection * gravityStrength * Time.fixedDeltaTime;
         planetRigidbody.velocity += gravityDirection * 0.7f;
+    }
+
+    void AttractToLandingSpot_MJ()
+    {
+        Vector2 direction = (Vector3)landingSpot - transform.position;  // 방향 계산
+        float distance = direction.magnitude;                           // landingSpot까지의 거리 계산
+        Vector2 gravityDirection = direction.normalized;                // 중력의 방향
+
+        float adjustedDistance = Mathf.Max(distance, 0.001f);           // 최소 거리 값을 0.001로 설정하여 거리가 0보다 작아지지 않도록 함
+
+        // 거리 비율 계산 (거리가 가까울수록 비율이 작아짐)
+        float maxDistance = 10.0f;                                      // 최대 거리를 정의 (조절 가능)
+        float distanceRatio = Mathf.InverseLerp(maxDistance, 0, adjustedDistance);  // 거리가 가까울수록 비율이 작아짐
+
+        Vector2 gravity = gravityDirection * 9.8f * distanceRatio;      // 비율을 적용하여 중력 값 계산
+
+        planetRigidbody.velocity += gravity * 0.7f;                     // 중력 값을 적용하여 속도 업데이트
     }
 
     void FixedUpdate()
@@ -111,7 +132,8 @@ public class PlanetShooter : MonoBehaviour
 
         if (isLaunched)
         {
-            AttracToLandingSpot();
+           // AttractToLandingSpot();
+            AttractToLandingSpot_MJ();
         }
     }
 
