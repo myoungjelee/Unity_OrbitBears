@@ -7,13 +7,10 @@ using UnityEngine.UIElements;
 public class PlanetShooter : MonoBehaviour
 {
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
-    // [SerializeField] Rigidbody2D planetRigidbody; 상단 콘솔 이런식으로도 사용가능함
 
-    public float launchForce = 7.5f;   // 마우스로 발사하는 힘의 배수
+    public float launchForce = 0.0001f;   // 마우스로 발사하는 힘의 배수
 
-    public GameObject planet;
     public Vector2 landingSpot;         // 착륙점에 꼭 할당하기 (태그)
-
 
     private Vector2 dragStartPosition;
     private Vector2 dragEndPosition;
@@ -23,14 +20,17 @@ public class PlanetShooter : MonoBehaviour
 
     private bool isLaunched = false;       // 발사 상태 확인
     private bool hasLanded = false;        // 행성의 착지상태 확인
-    //////////////////////////인디케이터///////////////////////////
 
     private LineRenderer lineRenderer;
     public int resolution = 30;             // 궤적의 해상도 (포인트 수)
 
-    //////////////////////////인디케이터///////////////////////////
+    public ParticleSystem flyingTrailEffect;
+
+    private Planet planet;
+
     void Start()
     {
+        planet = GetComponent<Planet>();
         planetRigidbody = GetComponent<Rigidbody2D>();
 
         if (lineRenderer == null)
@@ -39,7 +39,9 @@ public class PlanetShooter : MonoBehaviour
         }
 
         landingSpot = new Vector2(4, 0);
-    }   
+
+        flyingTrailEffect = GetComponent<ParticleSystem>();
+    }
 
     void Update()
     {
@@ -74,13 +76,20 @@ public class PlanetShooter : MonoBehaviour
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
-                planetRigidbody.AddForce(direction * dragDistance * launchForce, ForceMode2D.Impulse);
+                planetRigidbody.velocity = direction * dragDistance * launchForce;
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
+                if (!planet.isTouch)
+                {
+                    flyingTrailEffect.Play();
+                }
+                else
+                {
+                    flyingTrailEffect.Stop();
+                }
             }
         }
-
     }
 
     void AttracToLandingSpot()
@@ -90,20 +99,15 @@ public class PlanetShooter : MonoBehaviour
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 
         float adjustedDistance = Mathf.Max(distance, 0.001f);                        // 최소 거리 값을 #로 설정하여 거리가 #보다 작아지지 않도록 함
-        float gravityStrength = 10 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
-        /*  if (distance < 1f)  // 착륙점 (landingSpot)에 매우 가까워졌을때
-          {
-              planetRigidbody.velocity = Vector3.ClampMagnitude(planetRigidbody.velocity, 50f); // 속도를 최대 #f로 제한
-              gravityStrength = Mathf.Lerp(gravityStrength, 0, 1 - distance);
-              planetRigidbody.velocity *= 0.01f; 
-          }*/
-       // planetRigidbody.AddForce(gravityDirection * gravityStrength);                // 조절된 중력 적용
-        planetRigidbody.velocity += gravityDirection * 0.7f;
+        float gravityStrength = 5 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
+
+        //planetRigidbody.velocity += gravityDirection * gravityStrength * Time.fixedDeltaTime;
+        planetRigidbody.velocity += gravityDirection * 2.2f;
     }
-    //public float maxSpeed = 100f;                                                  // 최대 속도 설정
+
     void FixedUpdate()
     {
-        planetRigidbody.drag = 1.5f;           // 발사된 행성의 속도 저항력 설정
+        planetRigidbody.drag = 3f;           // 발사된 행성의 속도 저항력 설정
 
         if (isLaunched)
         {
@@ -127,16 +131,14 @@ public class PlanetShooter : MonoBehaviour
             Vector2 point = startPosition + startVelocity * time + 0.5f * Physics2D.gravity * time * time; // 점 계산
 
             points[i] = new Vector3(point.x, point.y, 0); // 2D 점을 3D로 변환
-       
         }
 
         lineRenderer.positionCount = resolution;
         lineRenderer.SetPositions(points); // LineRenderer에 점 설정
-
     }
+
     void ClearTrajectory()
     {
         lineRenderer.positionCount = 0; // 궤적 지우기
     }
-
 }
