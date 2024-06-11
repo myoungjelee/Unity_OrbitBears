@@ -55,7 +55,7 @@ public class Planet : MonoBehaviour
     {
         if (collision.gameObject.tag == "GravityField" && isTouch == true && isMerging == false)
         {
-            if(GameManager.Instance != null)
+            if (GameManager.Instance != null)
             {
                 GameManager.Instance.GameOver();
             }
@@ -72,6 +72,7 @@ public class Planet : MonoBehaviour
         {
             isTouch = true;
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
+           
             if (otherPlanet.data == data)
             {
                 isMerging = true;
@@ -91,6 +92,7 @@ public class Planet : MonoBehaviour
                // otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
                 Destroy(this.gameObject);
             }
+
         }
     }
 
@@ -136,15 +138,16 @@ public class Planet : MonoBehaviour
         {
             gravityField.SetDistanceFromCenter(this);
         }
-
-        //if (isTouch && !isInGravityField)
-        //{
-        //    GameManager.Instance.GameOver();
-        //}
     }
 
     private void FixedUpdate()
     {
         isInGravityField = gravityField.IsInField(this);
+
+
+        if (isTouch && !isMerging && !isInGravityField)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 }
