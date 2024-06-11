@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         // 게임오버 UI 비활성화
         gameOverUI.SetActive(false);
 
-        // 종료 UI 비활성화
+        //// 종료 UI 비활성화
         quitPanel.gameObject.SetActive(false);
 
         Time.timeScale = 1.0f;
@@ -87,74 +87,6 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.DeleteKey("highscoreTable");
         }
-    }
-
-    public void OnClick_RetryButton()
-    {
-        SoundManager.Instance.PlayClickSound();
-
-        StartCoroutine(RetryCoRoutine());
-    }
-
-    IEnumerator RetryCoRoutine()
-    {     
-        yield return new WaitForSeconds(0.25f);
-
-        // 활성화중인 씬 열기
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void OnClick_QuitButton()
-    {
-        SoundManager.Instance.PlayClickSound();
-
-        StartCoroutine(QuitCoRoutine());
-    }
-
-    IEnumerator QuitCoRoutine()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-
-        // 종료 안내문 활성화
-        quitPanel.gameObject.SetActive(true);
-
-        Time.timeScale = 0f;
-    }
-
-    public void OnClick_ConfirmButton()
-    {
-        SoundManager.Instance.PlayClickSound();
-
-        StartCoroutine(ConfirmCoRoutine());
-    }
-
-    IEnumerator ConfirmCoRoutine()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-
-        // 유니티 에디터에서 실행 중인 경우
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        // 빌드 완료후 실행파일에서 실행 중인 경우
-        Application.Quit();
-#endif
-    }
-
-    public void OnClick_CancleButton()
-    {
-        SoundManager.Instance.PlayClickSound();
-
-        StartCoroutine (CancleCoRoutine()); 
-    }
-
-    IEnumerator CancleCoRoutine()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-
-        Time.timeScale = 1.0f;
-        // 종료 안내문 비홠성화
-        quitPanel.gameObject.SetActive(false);
     }
 
     // 랭킹 리스트 갯수 파악하기
