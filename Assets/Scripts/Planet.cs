@@ -59,6 +59,10 @@ public class Planet : MonoBehaviour
             {
                 GameManager.Instance.GameOver();
             }
+            else
+            {
+                Debug.Log("게임매니저 널!!!");
+            }
         }
     }
 
@@ -77,6 +81,7 @@ public class Planet : MonoBehaviour
                 SoundManager.Instance.PlayMergeSound();
 
                 PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetData(data.id);
+                otherPlanet.transform.position = (transform.position + otherPlanet.transform.position) / 2;
                 otherPlanet.SetData(nextPlanetData);
                 otherPlanet.PlanetInitialization();
 
@@ -98,7 +103,7 @@ public class Planet : MonoBehaviour
         
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
-        float mergeForce = 50;
+        float mergeForce = 100;
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
         {
