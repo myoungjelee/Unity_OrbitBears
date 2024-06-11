@@ -77,6 +77,7 @@ public class PlanetShooter : MonoBehaviour
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
                 planetRigidbody.velocity = direction * dragDistance * launchForce;
+                Debug.Log(planetRigidbody.velocity);
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
