@@ -77,7 +77,7 @@ public class PlanetShooter : MonoBehaviour
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
                 Vector2 Force = direction * dragDistance * launchForce;
-                float maxMagnitude = 50.0f; // 최대 크기
+                float maxMagnitude = 20.0f; // 최대 크기
                 Vector2 shootForce = Vector2.ClampMagnitude(Force, maxMagnitude);
 
                 planetRigidbody.velocity = shootForce;
@@ -117,14 +117,15 @@ public class PlanetShooter : MonoBehaviour
 
         float adjustedDistance = Mathf.Max(distance, 0.001f);           // 최소 거리 값을 0.001로 설정하여 거리가 0보다 작아지지 않도록 함
 
-        // 거리 비율 계산 (거리가 가까울수록 비율이 작아짐)
-        float maxDistance = 10.0f;                                      // 최대 거리를 정의 (조절 가능)
-        float distanceRatio = Mathf.InverseLerp(maxDistance, 0, adjustedDistance);  // 거리가 가까울수록 비율이 작아짐
+        // 거리가 가까울수록 비율이 작아지도록 비율 계산 (거리가 가까울수록 비율이 작아짐)
+        float distanceRatio = Mathf.Clamp01(adjustedDistance / 10.0f);  // 거리를 10으로 나누어 비율을 조정 (조절 가능)
 
         Vector2 gravity = gravityDirection * 9.8f * distanceRatio;      // 비율을 적용하여 중력 값 계산
 
-        planetRigidbody.velocity += gravity * 0.7f;                     // 중력 값을 적용하여 속도 업데이트
+        planetRigidbody.velocity += gravity * 0.25f;                     // 중력 값을 적용하여 속도 업데이트
     }
+
+
 
     void FixedUpdate()
     {
