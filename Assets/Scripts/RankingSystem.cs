@@ -68,6 +68,18 @@ namespace RankingSytem
                 }
             }
         }
+        private void OnDisable()
+        {
+            // 积己等 亲格甸 力芭
+            if (highscoreEntryTransforms != null)
+            {
+                foreach (Transform entryTransform in highscoreEntryTransforms)
+                {
+                    Destroy(entryTransform.gameObject);
+                }
+                highscoreEntryTransforms.Clear();
+            }
+        }
 
         private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transforms)
         {
