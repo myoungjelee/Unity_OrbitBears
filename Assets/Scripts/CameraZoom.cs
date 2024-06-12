@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraControllerTest : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class CameraControllerTest : MonoBehaviour
 
     void Update()
     {
+        // UI 요소를 클릭했는지 확인
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return; // UI 요소가 클릭되었으면 게임 내 마우스 입력을 무시
+        }
+
         // 마우스 버튼이 눌렸을 때
         if (Input.GetMouseButtonDown(0))
         {
