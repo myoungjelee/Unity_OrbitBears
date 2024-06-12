@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class PlanetShooter : MonoBehaviour
 {
@@ -52,6 +53,12 @@ public class PlanetShooter : MonoBehaviour
     {
         if (!isLaunched) // 발사되지 않았을 때만 마우스 입력을 처리
         {
+            // UI 요소를 클릭했는지 확인
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return; // UI 요소가 클릭되었으면 게임 내 마우스 입력을 무시
+            }
+
             if (Input.GetMouseButtonDown(0)) // 마우스 버튼 눌렀을 때
             {
                 // 드래그 시작 위치 기록
