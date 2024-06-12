@@ -102,7 +102,7 @@ public class Planet : MonoBehaviour
         
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
-        float mergeForce = 50f;
+        float mergeForce = 25f;
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
         {
