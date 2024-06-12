@@ -22,7 +22,7 @@ public class PlanetShooter : MonoBehaviour
     private bool hasLanded = false;        // 행성의 착지상태 확인
 
     private LineRenderer lineRenderer;
-    public int resolution = 30;             // 궤적의 해상도 (포인트 수)
+    public int resolution = 20;             // 궤적의 해상도 (포인트 수)
 
     public ParticleSystem flyingTrailEffect;
 
@@ -42,10 +42,9 @@ public class PlanetShooter : MonoBehaviour
 
         flyingTrailEffect = GetComponent<ParticleSystem>();
     }
-
     void Update()
     {
-        if (!isLaunched) // 발사되지 않았을 때만 마우스 입력을 처리 = 발사된 이후엔 마우스 입력영향을 받지않음
+        if (!isLaunched) // 발사되지 않았을 때만 마우스 입력을 처리
         {
             if (Input.GetMouseButtonDown(0)) // 마우스 버튼 눌렀을 때
             {
@@ -56,10 +55,24 @@ public class PlanetShooter : MonoBehaviour
                 dragStartPosition = planetRigidbody.position;
                 ///////////////////////////
             }
-            if (Input.GetMouseButton(0) && isDragging) // 마우스로 클릭 + 드래그를 하는동안 ~
+            if (Input.GetMouseButton(0) && isDragging) // 마우스로 클릭 + 드래그를 하는 동안
             {
                 dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 클릭&드래그 하는동안의 힘을 계산
+                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 클릭&드래그 하는 동안의 힘을 계산
+
+                // 드래그 벡터의 크기 제한
+                float maxDragDistance = 5.0f; // 최대 드래그 거리
+                dragVector = Vector2.ClampMagnitude(dragVector, maxDragDistance);
+
+                // 각도 제한
+                float angleLimit = 90.0f; // 각도 제한
+                float angle = Vector2.SignedAngle(Vector2.right, dragVector);
+                if (Mathf.Abs(angle) > angleLimit)
+                {
+                    angle = Mathf.Sign(angle) * angleLimit;
+                    dragVector = Quaternion.Euler(0, 0, angle) * Vector2.right * dragVector.magnitude;
+                }
+
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산 (드래그 정도)
 
@@ -71,13 +84,26 @@ public class PlanetShooter : MonoBehaviour
                 isDragging = false;
                 //////인디케이터 명령어/////
                 ClearTrajectory();  // 궤적(표시기) 지우기
-                ////////////////////////////
-                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 마우스 클릭ON 좌표 - 클릭OFF 좌표 를 해서 힘계산
+                                    ////////////////////////////
+                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 마우스 클릭ON 좌표 - 클릭OFF 좌표를 해서 힘 계산
+
+                // 드래그 벡터의 크기 제한
+                float maxDragDistance = 5.0f; // 최대 드래그 거리
+                dragVector = Vector2.ClampMagnitude(dragVector, maxDragDistance);
+
+                // 각도 제한
+                float angleLimit = 90.0f; // 각도 제한
+                float angle = Vector2.SignedAngle(Vector2.right, dragVector);
+                if (Mathf.Abs(angle) > angleLimit)
+                {
+                    angle = Mathf.Sign(angle) * angleLimit;
+                    dragVector = Quaternion.Euler(0, 0, angle) * Vector2.right * dragVector.magnitude;
+                }
+
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
                 planetRigidbody.velocity = direction * dragDistance * launchForce;
-               // Debug.Log(planetRigidbody.velocity);
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
