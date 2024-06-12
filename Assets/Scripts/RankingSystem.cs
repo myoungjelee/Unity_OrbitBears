@@ -16,6 +16,9 @@ namespace RankingSytem
 
         private const int MAX_ENTRY = 5;
 
+        private int latestScore;
+        private string latestName;
+
         private void OnEnable()
         {
             entryContainer = transform.Find("ScoreEntryContainer");
@@ -130,34 +133,75 @@ namespace RankingSytem
             }
 
             // 최신 항목 색상 강조하기
-            int latestScore = PlayerPrefs.GetInt("latestScore");
-            string latestName = PlayerPrefs.GetString("latestName");
+            //int latestScore = PlayerPrefs.GetInt("latestScore");
+            //string latestName = PlayerPrefs.GetString("latestName");
+            if (File.Exists(GameManager.Instance.filePath))
+            {
+                string jsonString = File.ReadAllText(GameManager.Instance.filePath);
+                Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+                latestScore = highscores.latestScore;
+                latestName = highscores.latestName;
+            }
 
             if (score == latestScore && name == latestName)
             {
                 entryTransform.Find("PosText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("ScoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("NameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
-            }
+            }          
 
             transforms.Add(entryTransform);
         }
 
         public void AddHighscoreEntry(int score, string name)
         {
+            //// 점수 엔트리 생성
+            //HighscoreEntry entry = new HighscoreEntry { score = score, name = name };
+
+            //// 새로 추가된 항목 저장
+            //PlayerPrefs.SetInt("latestScore", score);
+            //PlayerPrefs.SetString("latestName", name);
+
+            //// 점수 로드
+            //string jsonString = PlayerPrefs.GetString("highscoreTable");
+            //Highscores highscores = new Highscores();
+
+            //if (!string.IsNullOrEmpty(jsonString))
+            //{
+            //    highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            //}
+            //else
+            //{
+            //    highscores.highscoreEntries = new List<HighscoreEntry>();
+            //}
+
+            //// 새로운 점수 엔트리 추가
+            //highscores.highscoreEntries.Add(entry);
+
+            //// 점수 내림차순 정렬
+            //highscores.highscoreEntries.Sort((x, y) => y.score.CompareTo(x.score));
+
+            //// 상위 5개 점수만 유지
+            //if (highscores.highscoreEntries.Count > MAX_ENTRY)
+            //{
+            //    highscores.highscoreEntries.RemoveRange(MAX_ENTRY, highscores.highscoreEntries.Count - MAX_ENTRY);
+            //}
+
+            //// 점수 업데이트
+            //string json = JsonUtility.ToJson(highscores);
+            //PlayerPrefs.SetString("highscoreTable", json);
+            //PlayerPrefs.Save();
+            //File.WriteAllText(GameManager.Instance.filePath, json);
+
             // 점수 엔트리 생성
             HighscoreEntry entry = new HighscoreEntry { score = score, name = name };
 
-            // 새로 추가된 항목 저장
-            PlayerPrefs.SetInt("latestScore", score);
-            PlayerPrefs.SetString("latestName", name);
-
             // 점수 로드
-            string jsonString = PlayerPrefs.GetString("highscoreTable");
             Highscores highscores = new Highscores();
 
-            if (!string.IsNullOrEmpty(jsonString))
+            if (File.Exists(GameManager.Instance.filePath))
             {
+                string jsonString = File.ReadAllText(GameManager.Instance.filePath);
                 highscores = JsonUtility.FromJson<Highscores>(jsonString);
             }
             else
@@ -177,16 +221,20 @@ namespace RankingSytem
                 highscores.highscoreEntries.RemoveRange(MAX_ENTRY, highscores.highscoreEntries.Count - MAX_ENTRY);
             }
 
+            // 최근 등록된 점수와 이름 저장
+            highscores.latestScore = score;
+            highscores.latestName = name;
+
             // 점수 업데이트
             string json = JsonUtility.ToJson(highscores);
-            PlayerPrefs.SetString("highscoreTable", json);
-            PlayerPrefs.Save();
             File.WriteAllText(GameManager.Instance.filePath, json);
         }
 
         public class Highscores
         {
             public List<HighscoreEntry> highscoreEntries;
+            public int latestScore;
+            public string latestName;
         }
 
 

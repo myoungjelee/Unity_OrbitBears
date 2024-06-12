@@ -83,9 +83,22 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1.0f;
 
-        // 강조한 후 정보 삭제
-        PlayerPrefs.DeleteKey("latestScore");
-        PlayerPrefs.DeleteKey("latestName");
+        //// 강조한 후 정보 삭제
+        //PlayerPrefs.DeleteKey("latestScore");
+        //PlayerPrefs.DeleteKey("latestName");   
+        if (File.Exists(filePath))
+        {
+            string jsonString = File.ReadAllText(filePath);
+            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+
+            // 최근 점수 및 이름 초기화
+            highscores.latestScore = 0;
+            highscores.latestName = string.Empty;
+
+            // 업데이트된 JSON 파일 저장
+            string updatedJson = JsonUtility.ToJson(highscores);
+            File.WriteAllText(filePath, updatedJson);
+        }
 
         GetRankingListCount();
     }
@@ -111,32 +124,57 @@ public class GameManager : MonoBehaviour
     // 랭킹 리스트 갯수 파악하기
     public bool GetRankingListCount()
     {
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        if (!string.IsNullOrEmpty(jsonString))
+        //string jsonString = PlayerPrefs.GetString("highscoreTable");
+        //if (!string.IsNullOrEmpty(jsonString))
+        //{
+        //    Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        //    if (highscores.highscoreEntries.Count >= 5)
+        //    {
+        //        return isFullRanking = true;
+        //    }
+        //    else
+        //    {
+        //        return isFullRanking = false;
+        //    }
+        //}
+        //return isFullRanking = false;
+
+        if (File.Exists(filePath))
         {
-            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-            if (highscores.highscoreEntries.Count >= 5)
+            string jsonString = File.ReadAllText(filePath);
+            if (!string.IsNullOrEmpty(jsonString))
             {
-                return isFullRanking = true;
-            }
-            else
-            {
-                return isFullRanking = false;
+                Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+                return highscores.highscoreEntries.Count >= 5;
             }
         }
-        return isFullRanking = false;
+        return false;
     }
 
     // 꼴등랭킹의 스코어 점수 가져오기
     public int GetLastRankingScore()
     {
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        if (!string.IsNullOrEmpty(jsonString))
+        //string jsonString = PlayerPrefs.GetString("highscoreTable");
+        //if (!string.IsNullOrEmpty(jsonString))
+        //{
+        //    Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        //    if (highscores.highscoreEntries.Count > 0)
+        //    {
+        //        return highscores.highscoreEntries[highscores.highscoreEntries.Count - 1].score;
+        //    }
+        //}
+        //return 0; // 랭킹 테이블이 비어있는 경우 0 반환
+
+        if (File.Exists(filePath))
         {
-            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-            if (highscores.highscoreEntries.Count > 0)
+            string jsonString = File.ReadAllText(filePath);
+            if (!string.IsNullOrEmpty(jsonString))
             {
-                return highscores.highscoreEntries[highscores.highscoreEntries.Count - 1].score;
+                Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+                if (highscores.highscoreEntries.Count > 0)
+                {
+                    return highscores.highscoreEntries[highscores.highscoreEntries.Count - 1].score;
+                }
             }
         }
         return 0; // 랭킹 테이블이 비어있는 경우 0 반환
