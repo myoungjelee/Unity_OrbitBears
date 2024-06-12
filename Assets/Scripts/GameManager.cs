@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using RankingSytem;
 using static RankingSytem.RankingSystem;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     private bool isFullRanking;
 
+    public string filePath;
+
     private void Awake()
     {
         if(instance == null)
@@ -42,6 +45,15 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        // 랭킹파일 저장 경로
+        #if UNITY_EDITOR
+        filePath = Path.Combine(Application.dataPath, "Ranking.json");
+        #else
+        filePath = Path.Combine(Application.persistentDataPath, "Ranking.json");
+        #endif
+
+        Debug.Log(filePath);
     }
 
     private void Start()

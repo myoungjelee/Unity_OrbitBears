@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms.Impl;
+using System.IO;
 
 namespace RankingSytem
 {
@@ -11,7 +12,7 @@ namespace RankingSytem
     {
         private Transform entryContainer;
         private Transform entryTemplate;
-        private List<Transform> highscoreEntryTransforms;
+        private List<Transform> highscoreEntryTransforms;     
 
         private const int MAX_ENTRY = 5;
 
@@ -22,11 +23,30 @@ namespace RankingSytem
 
             entryTemplate.gameObject.SetActive(false);
 
-            string jsonString = PlayerPrefs.GetString("highscoreTable");
-            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            //string jsonString = PlayerPrefs.GetString("highscoreTable");
+            //Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
-            if (PlayerPrefs.HasKey("highscoreTable"))
+            //if (PlayerPrefs.HasKey("highscoreTable"))
+            //{
+            //    // 스코어 내림차순 정렬
+            //    for (int i = 0; i < highscores.highscoreEntries.Count; i++)
+            //    {
+            //        for (int j = i; j < highscores.highscoreEntries.Count; j++)
+            //        {
+            //            if (highscores.highscoreEntries[j].score > highscores.highscoreEntries[i].score)
+            //            {
+            //                HighscoreEntry temp = highscores.highscoreEntries[i];
+            //                highscores.highscoreEntries[i] = highscores.highscoreEntries[j];
+            //                highscores.highscoreEntries[j] = temp;
+            //            }
+            //        }
+            //    }
+
+            if (File.Exists(GameManager.Instance.filePath))
             {
+                string jsonString = File.ReadAllText(GameManager.Instance.filePath);
+                Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+
                 // 스코어 내림차순 정렬
                 for (int i = 0; i < highscores.highscoreEntries.Count; i++)
                 {
@@ -150,8 +170,9 @@ namespace RankingSytem
 
             // 점수 업데이트
             string json = JsonUtility.ToJson(highscores);
-            PlayerPrefs.SetString("highscoreTable", json);
-            PlayerPrefs.Save();
+            //PlayerPrefs.SetString("highscoreTable", json);
+            //PlayerPrefs.Save();
+            File.WriteAllText(GameManager.Instance.filePath, json);
         }
 
         public class Highscores
