@@ -8,7 +8,7 @@ public class PlanetShooter : MonoBehaviour
 {
     public Rigidbody2D planetRigidbody;    // 행성의 리지드바디2D 컴포넌트
 
-    public float launchForce = 0.0001f;   // 마우스로 발사하는 힘의 배수
+    public float launchForce = 0.01f;   // 마우스로 발사하는 힘의 배수
 
     public Vector2 landingSpot;         // 착륙점에 꼭 할당하기 (태그)
 
@@ -77,7 +77,7 @@ public class PlanetShooter : MonoBehaviour
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
                 planetRigidbody.velocity = direction * dragDistance * launchForce;
-                Debug.Log(planetRigidbody.velocity);
+               // Debug.Log(planetRigidbody.velocity);
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
@@ -100,15 +100,17 @@ public class PlanetShooter : MonoBehaviour
         Vector2 gravityDirection = direction.normalized;                             // 중력의 방향
 
         float adjustedDistance = Mathf.Max(distance, 0.001f);                        // 최소 거리 값을 #로 설정하여 거리가 #보다 작아지지 않도록 함
-        float gravityStrength = 5 / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
+        float gravityStrength = 0.01f / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
 
         //planetRigidbody.velocity += gravityDirection * gravityStrength * Time.fixedDeltaTime;
-        planetRigidbody.velocity += gravityDirection * 2.2f;
+        planetRigidbody.velocity += gravityDirection * 1f;
+
+       // float clampedValue = Mathf.Clamp(gravityStrength,  )  // 클램프 : 최소값 최대값 제한
     }
 
     void FixedUpdate()
     {
-        planetRigidbody.drag = 3f;           // 발사된 행성의 속도 저항력 설정
+        planetRigidbody.drag = 2f;           // 발사된 행성의 속도 저항력 설정
 
         if (isLaunched)
         {
