@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     private bool isFullRanking;
 
     public string filePath;
+    string buildPath = Directory.GetParent(Application.dataPath).FullName;
 
     private void Awake()
     {
@@ -48,12 +49,11 @@ public class GameManager : MonoBehaviour
 
         // 랭킹파일 저장 경로
         #if UNITY_EDITOR
-        filePath = Path.Combine(Application.dataPath, "Ranking.json");
+        filePath = Path.Combine(Application.dataPath + "/Editor", "Ranking.json");
         #else
-        filePath = Path.Combine(Application.persistentDataPath, "Ranking.json");
+        filePath = Path.Combine(buildPath + "/Rank Data", "Ranking.json");
         #endif
 
-        Debug.Log(filePath);
     }
 
     private void Start()

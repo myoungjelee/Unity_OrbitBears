@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource gameoverAudioSource;
     public AudioSource shootingAudioSource;
     public AudioSource clickAudioSource;
+    public AudioSource StartClickAudioSource;
     public AudioSource mergeAudioSource;
 
     private static SoundManager instance;
@@ -66,6 +67,11 @@ public class SoundManager : MonoBehaviour
     public void PlayClickSound()
     {
         clickAudioSource.Play();
+    }
+
+    public void PlayStartClickSound()
+    {
+        StartClickAudioSource.Play();
     }
 
     public void PlayGameOverSound()
