@@ -10,10 +10,12 @@ public class UI_Input : MonoBehaviour
     public GameObject gameOverUI;
 
     private TMP_InputField inputField;
+    
 
     private void Awake()
     {
         inputField = transform.Find("InputField (TMP)").GetComponent<TMP_InputField>();
+        inputField.characterLimit = 10;
     }
 
     public void OnClick_CheckButton()
