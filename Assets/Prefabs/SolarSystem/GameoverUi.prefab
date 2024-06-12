@@ -887,12 +887,12 @@ GameObject:
   - component: {fileID: 6033053358086708459}
   - component: {fileID: 2352781750705941431}
   m_Layer: 0
-  m_Name: GameoverUI
+  m_Name: GameoverUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6033053358086708459
 Transform:
   m_ObjectHideFlags: 0
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8f50fbbe223d544978a3d342ab7568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 4527516012450942640}
   rnakingImage: {fileID: 2013454204691985434}
 --- !u!1 &3679801655974247723
 GameObject:

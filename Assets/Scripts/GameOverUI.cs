@@ -11,11 +11,12 @@ public class GameOverUI : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public GameObject rnakingImage;
 
-    private void Awake()
+    private void Start()
     {
         // "Score Text (TMP)" 이름을 가진 게임 오브젝트를 찾아 TextMeshProUGUI 컴포넌트를 할당
         scoreText = GameObject.Find("Score Text (TMP)").GetComponent<TextMeshProUGUI>();
     }
+
     private void OnEnable()
     {
         UpdateScoreText();
