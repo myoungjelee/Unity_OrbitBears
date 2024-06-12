@@ -86,7 +86,7 @@ public class Planet : MonoBehaviour
                 otherPlanet.SetData(nextPlanetData);
                 otherPlanet.PlanetInitialization();           
 
-                otherPlanet.ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                otherPlanet.ApplyForceToOther(transform.position, nextPlanetData);
 
                 Destroy(gameObject);
             }
@@ -102,7 +102,7 @@ public class Planet : MonoBehaviour
         
     private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
-        float mergeForce = 20f;
+        float mergeForce = 50f;
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
         {

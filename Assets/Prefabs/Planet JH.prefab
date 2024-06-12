@@ -107,7 +107,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 465544a3a4f756b48bf4f025cc806e96, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   radius: 2
   nextSizeSprite: {fileID: 0}
   isTouch: 0
+  isMerging: 0
 --- !u!120 &2062576338949822614
 LineRenderer:
   serializedVersion: 2

@@ -23,30 +23,11 @@ namespace RankingSytem
 
             entryTemplate.gameObject.SetActive(false);
 
-            //string jsonString = PlayerPrefs.GetString("highscoreTable");
-            //Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            string jsonString = PlayerPrefs.GetString("highscoreTable");
+            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
-            //if (PlayerPrefs.HasKey("highscoreTable"))
-            //{
-            //    // 스코어 내림차순 정렬
-            //    for (int i = 0; i < highscores.highscoreEntries.Count; i++)
-            //    {
-            //        for (int j = i; j < highscores.highscoreEntries.Count; j++)
-            //        {
-            //            if (highscores.highscoreEntries[j].score > highscores.highscoreEntries[i].score)
-            //            {
-            //                HighscoreEntry temp = highscores.highscoreEntries[i];
-            //                highscores.highscoreEntries[i] = highscores.highscoreEntries[j];
-            //                highscores.highscoreEntries[j] = temp;
-            //            }
-            //        }
-            //    }
-
-            if (File.Exists(GameManager.Instance.filePath))
+            if (PlayerPrefs.HasKey("highscoreTable"))
             {
-                string jsonString = File.ReadAllText(GameManager.Instance.filePath);
-                Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-
                 // 스코어 내림차순 정렬
                 for (int i = 0; i < highscores.highscoreEntries.Count; i++)
                 {
@@ -61,6 +42,25 @@ namespace RankingSytem
                     }
                 }
 
+            //    if (File.Exists(GameManager.Instance.filePath))
+            //{
+            //    string jsonString = File.ReadAllText(GameManager.Instance.filePath);
+            //    Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+
+            //    // 스코어 내림차순 정렬
+            //    for (int i = 0; i < highscores.highscoreEntries.Count; i++)
+            //    {
+            //        for (int j = i; j < highscores.highscoreEntries.Count; j++)
+            //        {
+            //            if (highscores.highscoreEntries[j].score > highscores.highscoreEntries[i].score)
+            //            {
+            //                HighscoreEntry temp = highscores.highscoreEntries[i];
+            //                highscores.highscoreEntries[i] = highscores.highscoreEntries[j];
+            //                highscores.highscoreEntries[j] = temp;
+            //            }
+            //        }
+            //    }
+
                 highscoreEntryTransforms = new List<Transform>();
                 foreach (HighscoreEntry entry in highscores.highscoreEntries)
                 {
@@ -68,10 +68,22 @@ namespace RankingSytem
                 }
             }
         }
+        private void OnDisable()
+        {
+            // 생성된 항목들 제거
+            if (highscoreEntryTransforms != null)
+            {
+                foreach (Transform entryTransform in highscoreEntryTransforms)
+                {
+                    Destroy(entryTransform.gameObject);
+                }
+                highscoreEntryTransforms.Clear();
+            }
+        }
 
         private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transforms)
         {
-            float templateHeight = 30f;
+            float templateHeight = 20f;
 
             Transform entryTransform = Instantiate(entryTemplate, container);
             RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
@@ -126,10 +138,7 @@ namespace RankingSytem
                 entryTransform.Find("PosText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("ScoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("NameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
-
-
             }
-
 
             transforms.Add(entryTransform);
         }
@@ -170,9 +179,9 @@ namespace RankingSytem
 
             // 점수 업데이트
             string json = JsonUtility.ToJson(highscores);
-            //PlayerPrefs.SetString("highscoreTable", json);
-            //PlayerPrefs.Save();
-            File.WriteAllText(GameManager.Instance.filePath, json);
+            PlayerPrefs.SetString("highscoreTable", json);
+            PlayerPrefs.Save();
+            //File.WriteAllText(GameManager.Instance.filePath, json);
         }
 
         public class Highscores
