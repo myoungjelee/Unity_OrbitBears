@@ -33,6 +33,12 @@ public class PlanetShooter : MonoBehaviour
         planet = GetComponent<Planet>();
         planetRigidbody = GetComponent<Rigidbody2D>();
 
+        // LineRenderer 초기 설정
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default")); // 기본 쉐이더 사용
+        lineRenderer.textureMode = LineTextureMode.Tile; // 텍스처를 타일 형태로 반복
+        lineRenderer.widthMultiplier = 0.7f; // 선의 두께 설정
+
         if (lineRenderer == null)
         {
             lineRenderer = GetComponent<LineRenderer>();   // LineRenderer를 가져오는 구문
