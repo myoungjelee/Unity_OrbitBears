@@ -85,7 +85,7 @@ public class PlanetShooter : MonoBehaviour
                     angle = Mathf.Sign(angle) * angleLimit;
                     dragVector = Quaternion.Euler(0, 0, angle) * Vector2.right * dragVector.magnitude;
                 }
-
+                
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산 (드래그 정도)
 
@@ -120,6 +120,7 @@ public class PlanetShooter : MonoBehaviour
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
+                SoundManager.Instance.PlayShootSound();
                 if (!planet.isTouch)
                 {
                     flyingTrailEffect.Play();
