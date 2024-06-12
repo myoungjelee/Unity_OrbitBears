@@ -8,4 +8,3 @@ public class PlanetSetting : ScriptableObject
     public PlanetData[] planetDatas;
 
 }
-

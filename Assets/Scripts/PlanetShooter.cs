@@ -120,7 +120,7 @@ public class PlanetShooter : MonoBehaviour
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
-                if (!planet.isTouch)
+                if (!planet.touchPlanet)
                 {
                     flyingTrailEffect.Play();
                 }
