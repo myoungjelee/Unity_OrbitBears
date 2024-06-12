@@ -94,9 +94,7 @@ public class Planet : MonoBehaviour
         // 행성이 합쳐지지 않았고, 중력장을 나갔을 때 게임 오버
         if (!isMerge && outGravityField && touchPlanet)
         {
-            Debug.Log("aaaa");
-           GameManager.Instance.GameOver();
-
+              GameManager.Instance.GameOver();
         }
     }
 }
