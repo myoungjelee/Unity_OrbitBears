@@ -988,9 +988,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 183215233}
     m_Modifications:
+    - target: {fileID: 604024745062925178, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_text
+      value: dsadsadsadsadsadsadsasdadsadsadas
+      objectReference: {fileID: 0}
+    - target: {fileID: 604024745062925178, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_fontSize
+      value: 4.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 604024745062925178, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 604024745062925178, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 604024745062925178, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013454204691985434, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3287701048299255484, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
       propertyPath: m_Name
       value: GameoverUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287701048299255484, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6033053358086708459, guid: 491b055178601fd41bc9b75749563cf5, type: 3}
       propertyPath: m_LocalPosition.x
