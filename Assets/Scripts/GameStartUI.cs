@@ -12,9 +12,18 @@ public class GameStartUI : MonoBehaviour
     }
     public void PlayGame()
     {
+        StartCoroutine(PlayGameCoroutine());
+    }
+
+    IEnumerator PlayGameCoroutine()
+    {
         SoundManager.Instance.PlayBgmSound();
 
+        SoundManager.Instance.PlayStartClickSound();
+
+        yield return new WaitForSecondsRealtime(1);
+
         // 씬을 로드하여 게임을 시작합니다.
-        SceneManager.LoadScene("Solar_System");
+        SceneManager.LoadScene("OrbitBears");
     }
 }

@@ -1556,6 +1556,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4693922917516280839, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1308559382155782041}
+    - target: {fileID: 4693922917516280839, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick_CheckButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693922917516280839, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InputNameUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6896652962046303088, guid: 90402b058d4a01240a120967df3b365a, type: 3}
       propertyPath: gameOverUI
       value: 
@@ -1564,6 +1576,18 @@ PrefabInstance:
       propertyPath: rankingSystem
       value: 
       objectReference: {fileID: 1538167106}
+    - target: {fileID: 7349413427997866517, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1308559382155782041}
+    - target: {fileID: 7349413427997866517, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick_XButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349413427997866517, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InputNameUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8298368445369584981, guid: 90402b058d4a01240a120967df3b365a, type: 3}
       propertyPath: m_Name
       value: InputNameUI
@@ -1571,13 +1595,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 105167766955663458, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1308559382155782041}
   m_SourcePrefab: {fileID: 100100000, guid: 90402b058d4a01240a120967df3b365a, type: 3}
 --- !u!1 &1308559382155782039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8298368445369584981, guid: 90402b058d4a01240a120967df3b365a, type: 3}
   m_PrefabInstance: {fileID: 1308559382155782038}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1308559382155782040 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 105167766955663458, guid: 90402b058d4a01240a120967df3b365a, type: 3}
+  m_PrefabInstance: {fileID: 1308559382155782038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1308559382155782041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308559382155782040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ed008b89f92c6448256c89b620404c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankingSystem: {fileID: 1538167106}
+  gameOverUI: {fileID: 1538167105}
 --- !u!1001 &1636142383269813235
 PrefabInstance:
   m_ObjectHideFlags: 0
