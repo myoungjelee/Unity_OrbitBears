@@ -1409,7 +1409,7 @@ PrefabInstance:
       objectReference: {fileID: 2072510399}
     - target: {fileID: 2255231151695432021, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2995553502684009569, guid: 39a232052baac3b46887d42c027f8a57, type: 3}
       propertyPath: m_LocalScale.x
