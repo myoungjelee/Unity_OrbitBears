@@ -117,7 +117,11 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightAlt))
         {
-            PlayerPrefs.DeleteKey("highscoreTable");
+            //PlayerPrefs.DeleteKey("highscoreTable");
+            if(File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
         }
     }
 
@@ -145,10 +149,18 @@ public class GameManager : MonoBehaviour
             if (!string.IsNullOrEmpty(jsonString))
             {
                 Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-                return highscores.highscoreEntries.Count >= 5;
+                if(highscores.highscoreEntries.Count >= 5)
+                {
+                    return isFullRanking = true;
+                }
+                else
+                {
+                    return isFullRanking = false;
+                }
             }
+            return isFullRanking = false;
         }
-        return false;
+        return isFullRanking = false;
     }
 
     // 꼴등랭킹의 스코어 점수 가져오기
