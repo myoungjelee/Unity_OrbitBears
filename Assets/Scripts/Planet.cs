@@ -26,13 +26,20 @@ public class Planet : MonoBehaviour
     public bool outGravityField = false;
     public bool isMerge = false;
     public bool touchPlanet = false;
-              
+
 
     public void SetData(PlanetData newData)
     {
         data = newData;
-        GetComponent<SpriteRenderer>().sprite = data.sprite;
-        GetComponent<Rigidbody2D>().mass = data.mass;
+        if (newData.sprite != null)
+        {
+            GetComponent<SpriteRenderer>().sprite = data.sprite;
+
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().mass = data.mass;
+        }
         transform.localScale = new Vector3(data.radius * 2.5f, data.radius * 2.5f, data.radius * 2.5f);
     }
 
@@ -44,23 +51,23 @@ public class Planet : MonoBehaviour
 
             touchPlanet = true;
 
-            if (otherPlanet.data == data)
+            if (otherPlanet.data == data)   //
             {
                 PlanetData nextPlanetData = PlanetManager.Instance.NextPlanetIndex(data.id);
                 otherPlanet.SetData(nextPlanetData);
                 ScoreManager.Instance.AddScore(data.mergeScore);
                 SoundManager.Instance.PlayMergeSound();
-                
+
                 isMerge = true;
                 otherPlanet.isMerge = true;         //합쳐지는 두 행성 상태 변환
 
                 Destroy(gameObject);
                 return;
             }
-            
+
         }
     }
-     
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // GravityField에 접촉 감지 확인
@@ -86,15 +93,16 @@ public class Planet : MonoBehaviour
             outGravityField = true;
             CheckGameOver();
         }
-    }  
+    }
 
-    private void CheckGameOver() 
+    private void CheckGameOver()
     {
         Debug.Log("gameOver");
         // 행성이 합쳐지지 않았고, 중력장을 나갔을 때 게임 오버
         if (!isMerge && outGravityField && touchPlanet)
         {
-              GameManager.Instance.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
+
 }

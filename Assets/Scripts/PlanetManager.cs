@@ -41,7 +41,6 @@ public class PlanetManager : MonoBehaviour
         AfterShootPlanet();
     }
 
-
     public Planet SpawnPlanet(PlanetData data, Vector2 spawnPos)
     {
         Planet planet = Instantiate(planetPrefab, spawnPos, Quaternion.identity).GetComponent<Planet>();
