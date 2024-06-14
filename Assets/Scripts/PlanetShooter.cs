@@ -51,15 +51,15 @@ public class PlanetShooter : MonoBehaviour
     }
     void Update()
     {
-        if (!isLaunched) // 발사되지 않았을 때만 마우스 입력을 처리
+        if (!isLaunched) // 발사되지 않았을 때만 입력을 처리
         {
             // UI 요소를 클릭했는지 확인
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                return; // UI 요소가 클릭되었으면 게임 내 마우스 입력을 무시
+                return; // UI 요소가 클릭되었으면 게임 내 입력을 무시
             }
 
-            if (Input.GetMouseButtonDown(0)) // 마우스 버튼 눌렀을 때
+            if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) // 마우스 버튼 또는 터치 시작 시
             {
                 // 드래그 시작 위치 기록
                 dragStartPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -68,10 +68,11 @@ public class PlanetShooter : MonoBehaviour
                 dragStartPosition = planetRigidbody.position;
                 ///////////////////////////
             }
-            if (Input.GetMouseButton(0) && isDragging) // 마우스로 클릭 + 드래그를 하는 동안
+
+            if ((Input.GetMouseButton(0) && isDragging) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)) // 마우스로 클릭 + 드래그 또는 터치 이동 중
             {
                 dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 클릭&드래그 하는 동안의 힘을 계산
+                Vector2 dragVector = (dragStartPosition - dragEndPosition); // 클릭&드래그 또는 터치 이동 중의 힘을 계산
 
                 // 드래그 벡터의 크기 제한
                 float maxDragDistance = 5.0f; // 최대 드래그 거리
@@ -85,13 +86,14 @@ public class PlanetShooter : MonoBehaviour
                     angle = Mathf.Sign(angle) * angleLimit;
                     dragVector = Quaternion.Euler(0, 0, angle) * Vector2.right * dragVector.magnitude;
                 }
-                
+
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산 (드래그 정도)
 
                 ShowTrajectory(dragStartPosition, direction * dragDistance * launchForce);
             }
-            if (Input.GetMouseButtonUp(0))   // 마우스 버튼 뗐을 때
+
+            if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)) // 마우스 버튼 또는 터치 끝났을 때
             {
                 dragEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 isDragging = false;
@@ -132,6 +134,7 @@ public class PlanetShooter : MonoBehaviour
             }
         }
     }
+
 
     void AttracToLandingSpot()
     {
