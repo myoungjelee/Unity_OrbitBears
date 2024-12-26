@@ -116,7 +116,7 @@ public class PlanetShooter : MonoBehaviour
                 Vector2 direction = dragVector.normalized;                  // 발사방향 계산
                 float dragDistance = dragVector.magnitude;                  // 드래그 거리 계산
 
-                planetRigidbody.velocity = direction * dragDistance * launchForce;
+                planetRigidbody.linearVelocity = direction * dragDistance * launchForce;
 
                 isGravityActive = true;   // 마우스로 발사한 직후 중력 활성화
                 isLaunched = true;
@@ -143,14 +143,14 @@ public class PlanetShooter : MonoBehaviour
         float gravityStrength = 0.01f / adjustedDistance;                               // 조정된 거리를 사용하여 중력 강도 계산 
 
         //planetRigidbody.velocity += gravityDirection * gravityStrength * Time.fixedDeltaTime;
-        planetRigidbody.velocity += gravityDirection * 1f;
+        planetRigidbody.linearVelocity += gravityDirection * 1f;
 
        // float clampedValue = Mathf.Clamp(gravityStrength,  )  // 클램프 : 최소값 최대값 제한
     }
 
     void FixedUpdate()
     {
-        planetRigidbody.drag = 2f;           // 발사된 행성의 속도 저항력 설정
+        planetRigidbody.linearDamping = 2f;           // 발사된 행성의 속도 저항력 설정
 
         if (isLaunched)
         {
